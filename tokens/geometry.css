@@ -1,19 +1,18 @@
 /* ============================================================================
-   GEOMETRY — radius rhythm, spacing scale, control heights, the view shell
-   Three radius bands: 0px structural · 4px dominant · full-pill controls.
-   Density is lean-dense; whitespace only at section boundaries.
-   ALL borders are 1px — never thicker.
+   GEOMETRY
+   Radius values, spacing scale, control heights, and the view shell.
+   Standard borders are 1px.
    ========================================================================== */
 
 :root {
-  /* Radius rhythm — three bands (one radius per region; no nested radius) */
+  /* Radius values */
   --radius-inline:  2px;     /* inline code */
-  /* --radius: 0.25rem (4px) is the DOMINANT band — defined in colors.css for
+  /* --radius: 0.25rem (4px) is defined in colors.css for
      the shadcn bridge: cards, inputs, sidebar items, badges. */
   --radius-trigger: 8px;     /* search / icon trigger, media cards */
   --radius-callout: 10px;    /* callout box */
   --radius-panel:   0px;     /* big page/section panels, nav, tabs, headings */
-  --radius-pill:    9999px;  /* EVERY button, version tag, toggle, status dot, avatar */
+  --radius-pill:    9999px;  /* button, version tag, toggle, status dot, avatar */
 
   /* Borders — all 1px, always */
   --border-width: 1px;

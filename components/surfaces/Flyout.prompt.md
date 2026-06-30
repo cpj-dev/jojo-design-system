@@ -1,4 +1,5 @@
-Warm popover surface for menus/dropdowns/context menus. You position it (wrap in a relative anchor).
+Popover surface for menus, dropdowns, and context menus. You position it by
+wrapping it in a relative anchor.
 
 ```jsx
 <Flyout items={[
@@ -9,4 +10,4 @@ Warm popover surface for menus/dropdowns/context menus. You position it (wrap in
 ]} />
 ```
 
-Never give it backdrop-blur or a heavy shadow — it uses the flat halo only.
+Uses `--shadow-flyout` for elevation.

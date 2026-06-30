@@ -1,15 +1,13 @@
 /* ============================================================================
-   MOTION — near-zero. Two tiers only.
-   State feedback is COLOR, never geometry. No transform/scale/translate/shadow
-   on interactive elements. Geometry is dead-still; only tint + ink/accent move.
+   MOTION
+   Tokens for immediate state changes, color/opacity transitions, and reveals.
    ========================================================================== */
 
 :root {
-  /* Tier 1 — Instant: buttons, nav links, cards, rows (all state feedback) */
+  /* Tier 1 — Instant: buttons, nav links, cards, rows */
   --motion-instant: 0s;   /* @kind other */
 
-  /* Tier 2 — Color: content-level color/opacity fades, inputs, reveals.
-     COLOR / OPACITY ONLY — never geometry. Nothing routine exceeds ~250ms. */
+  /* Tier 2 — content-level color/opacity fades, inputs, reveals. */
   --motion-color: 200ms ease;   /* @kind other */
 
   /* Reveal/expand panels: opacity (+ <=6px translateY for the PANEL only) */

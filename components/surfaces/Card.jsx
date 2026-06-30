@@ -1,10 +1,8 @@
 import React from 'react';
 
 /**
- * Card — the workhorse surface. `soft` (default, on the card ladder, flat) or
- * `outline` (paper + the hard ink stroke, for emphasis/framed/selected). Set
- * `interactive` (or pass href/onClick) to make it a real keyboard-reachable
- * button/link with a color-only hover. NEVER nest a Card in a Card (anti-box).
+ * Card surface. `soft` is the default variant; `outline` uses `--rule-ink`.
+ * Set `interactive` (or pass href/onClick) to make it keyboard-reachable.
  */
 export function Card({
   variant = 'soft',

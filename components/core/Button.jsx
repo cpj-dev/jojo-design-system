@@ -1,9 +1,8 @@
 import React from 'react';
 
 /**
- * Button — the primary action primitive. All variants are full-pill and animate
- * NOTHING (instant chrome state). The orange is never a fill: it appears only as
- * the tertiary (accent) CTA's text. Action is ink-black.
+ * Button action primitive. Variants are full-pill and use immediate state
+ * changes. The tertiary variant uses `--accent-orange` text.
  */
 export function Button({
   variant = 'primary',

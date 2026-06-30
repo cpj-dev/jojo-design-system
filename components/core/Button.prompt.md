@@ -1,4 +1,4 @@
-Pill action button — use for any clickable action; the workhorse of the system.
+Pill action button for clickable actions.
 
 ```jsx
 <Button variant="primary">Download</Button>
@@ -6,4 +6,6 @@ Pill action button — use for any clickable action; the workhorse of the system
 <Button variant="tertiary">See pricing</Button>   {/* renders: See pricing → */}
 ```
 
-Variants: `primary` (ink fill — the action), `secondary` (ladder fill), `ghost`, `outline` (hard ink edge), `tertiary` (orange text CTA, auto-appends →), `quinary` (bare text). Sizes `sm | md | lg`. Renders `<a>` when `href` is set, or any element via `as`. The orange is NEVER a fill — only the `tertiary` text. No hover/press animation (instant); link-style variants dim, they don't underline.
+Variants: `primary`, `secondary`, `ghost`, `outline`, `tertiary` (orange text
+CTA, auto-appends `→`), and `quinary` (bare text). Sizes: `sm | md | lg`.
+Renders `<a>` when `href` is set, or any element via `as`.

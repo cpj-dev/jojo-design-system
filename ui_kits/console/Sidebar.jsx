@@ -1,6 +1,4 @@
-/* Console — left sidebar. bg-1 well, right hairline, 0 radius. Items: full-width,
-   16px/400, 4px radius, hover one ladder step; active = orange text + a thin accent
-   underline stroke (never a fill/pill, never a side-stripe). */
+/* Console left sidebar with full-width navigation items and active-state styling. */
 const { Avatar: SbAvatar } = window.DS;
 
 function NavItem({ icon, label, active, onClick }) {

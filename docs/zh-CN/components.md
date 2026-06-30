@@ -2,7 +2,8 @@
 
 # 组件
 
-jojo 提供 20 个 React 基础组件。它们是仍然让人觉得完整的最小一组构建块——足以拼装出导航栏、表单、表格和对话框，而无需再引入第二个库。每个基础组件都已经在讲这套系统的语言：暖纸单色、双描边规则、全药丸形（full-pill）控件，以及仅用颜色表达的状态。你只负责组合它们，而不是重新给它们设样式。
+jojo 提供 20 个 React 基础组件，可用于导航栏、表单、表格、标签页、卡片和浮层。
+这些组件使用共享令牌别名和 `components/jojo.css` 中的组件类。
 
 这些基础组件位于 [`components/`](../../components/) 下，分为四个文件夹。
 
@@ -34,7 +35,7 @@ jojo 提供 20 个 React 基础组件。它们是仍然让人觉得完整的最�
 
 ### Surfaces 表面 —— [`components/surfaces/`](../../components/surfaces/)
 
-容器与浮层。每个区域至多一个带边框的容器；绝不在卡片里再套卡片。
+容器与浮层。
 
 - **Card** —— 主力表面组件。`soft`（深度来自中性色阶，扁平无投影）或 `outline`（纸面 + 用于强调的墨线描边）。
 - **Callout** —— 用于状态或指引的内联提示，按内容颜色加以区分。
@@ -56,27 +57,31 @@ jojo 提供 20 个 React 基础组件。它们是仍然让人觉得完整的最�
 const { Button, Card, Input, Table } = window.JojoDesignSystem;
 ```
 
-一段小小的组合读起来很自然 —— 用 outline 表达强调，用墨色承载操作：
+下面是一个基础组合：
 
 ```jsx
 function StartPanel() {
   return (
     <Card variant="outline" padding="lg">
-      <p>Depth comes from the ladder, not shadow.</p>
+      <p>Use shared token aliases for component styling.</p>
       <Button variant="primary">Get started</Button>
     </Card>
   );
 }
 ```
 
-不要在这些组合里硬编码颜色、阴影或圆角 —— 而应引用解析后的令牌别名（`var(--bg-card)`、`var(--fg-1)`、`var(--accent-orange)`）。强调色只用于表达状态；操作本身始终保持墨色。
+组合中应引用解析后的令牌别名（`var(--bg-card)`、`var(--fg-1)`、
+`var(--accent-orange)`），不要写入原始颜色、阴影或圆角值。
 
 ## 类型与用法说明
 
 每个基础组件都在其 `.jsx` 旁边附带两个配套文件：
 
 - 一个带完整 prop 类型的 **`.d.ts`** —— 例如 [`Button.d.ts`](../../components/core/Button.d.ts) 声明了 `variant`、`size`、`as`、`href` 以及图标相关的 props。你的编辑器会读取它们来做自动补全和类型检查。
-- 一个带简短、贴合语气的用法说明和可复制粘贴片段的 **`.prompt.md`** —— 例如 [`Button.prompt.md`](../../components/core/Button.prompt.md) 和 [`Card.prompt.md`](../../components/surfaces/Card.prompt.md)。它们同时写给人和 agent 阅读；在动手用某个基础组件之前，先读一读它旁边的这份文件。
+- 一个带简短用法说明和可复制粘贴片段的 **`.prompt.md`** —— 例如
+  [`Button.prompt.md`](../../components/core/Button.prompt.md) 和
+  [`Card.prompt.md`](../../components/surfaces/Card.prompt.md)。它们同时写给人和
+  agent 阅读。
 
 ## 样例卡片
 
@@ -87,9 +92,11 @@ function StartPanel() {
 - [`components/surfaces/surfaces.card.html`](../../components/surfaces/surfaces.card.html)
 - [`components/data/data.card.html`](../../components/data/data.card.html)
 
-基础规范卡片 —— 颜色、字体、间距、几何与品牌 —— 位于 [`guidelines/`](../../guidelines/) 下。这两组卡片共同填充了总览 SPA（[`index.html`](../../index.html)）中的 Design System 标签页。
+基础规范卡片 —— 颜色、字体、间距、几何与资源 —— 位于
+[`guidelines/`](../../guidelines/) 下。这两组卡片共同填充了总览 SPA
+（[`index.html`](../../index.html)）中的 Design System 标签页。
 
 ## 另请参阅
 
-- [设计语言](./design-language.md) —— 五个标志性特征，以及把这些基础组件维系在一起的规则。
+- [设计语言](./design-language.md) —— 令牌、组件和布局的项目约束。
 - [快速开始](./getting-started.md) —— 引入样式表，渲染你的第一个界面。

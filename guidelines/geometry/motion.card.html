@@ -1,4 +1,4 @@
-<!-- @dsCard group="Geometry" viewport="700x176" name="Motion — two tiers" subtitle="State is color, never geometry. No lift, bounce, pulse, or spin." -->
+<!-- @dsCard group="Geometry" viewport="700x176" name="Motion" subtitle="Instant state changes and color/opacity transitions" -->
 <!DOCTYPE html>
 <html lang="en"><head><meta charset="UTF-8" /><link rel="stylesheet" href="../../styles.css" />
 <style>
@@ -14,11 +14,11 @@
   <div class="row">
     <div class="tier">
       <div class="h">Instant <span class="t">0s</span></div>
-      <div class="d">All chrome state — buttons, nav, cards, rows. Declares no transition; hover/press swap a token immediately.</div>
+      <div class="d">Buttons, nav, cards, and rows use immediate state changes.</div>
     </div>
     <div class="tier">
       <div class="h">Color <span class="t">≤200ms ease</span></div>
-      <div class="d">Content-level color / opacity fades, inputs, reveals. Color &amp; opacity only — never width, height, or transform.</div>
+      <div class="d">Content-level color and opacity transitions for inputs and reveals.</div>
     </div>
   </div>
   <div class="note">Reveal panels may add a ≤6px translateY. A global guard honors prefers-reduced-motion.</div>

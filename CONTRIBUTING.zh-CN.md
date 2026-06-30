@@ -2,12 +2,8 @@
 
 # 为 jojo 贡献
 
-感谢你为 jojo 出力。jojo 是一套原创、框架无关的设计系统——“暖纸落墨（Warm paper,
-drawn in ink）”——由 [perelmangao](mailto:perelmangao@gmail.com) 编写，以作者的猫
-命名。它采用 MIT 许可（见 [LICENSE](./LICENSE)），与任何公司或产品均无关联。
-
-设计语言是核心。本指南的大部分内容，都是关于如何让每一次改动都留在这套语言之内，
-使整个系统在设计令牌、组件、UI kits 与文档之间始终保持为一个连贯的整体。
+感谢你为 jojo 贡献。本指南说明如何本地运行项目、更新文档、新增令牌、新增组件，
+以及准备 pull request。
 
 ## 本地运行
 
@@ -21,7 +17,7 @@ npx serve .
 
 - `index.html` —— 总览 SPA。它会加载每一个设计令牌、组件与样例卡片，并带一个可用的
   浅色 / 深色切换。
-- `ui_kits/marketing/index.html` —— 营销站点（jojo 为自身做营销）。
+- `ui_kits/marketing/index.html` —— marketing 示例页面。
 - `ui_kits/console/index.html` —— 用 jojo 搭建的示例产品。
 
 `guidelines/` 下的各个样例卡片也以同样方式打开。所有内容都读取自单一入口样式表
@@ -48,44 +44,24 @@ npx serve .
   Switch、SegmentedControl）、surfaces（Card、Callout、Flyout、Tooltip）与 data
   （Table、Tabs）。组件 CSS 放在 `components/jojo.css`。每个基础组件都附带一个
   `.d.ts`、一个 `.prompt.md`，并在所属分组的 `.card.html` 中展示。
-- [`ui_kits/`](./ui_kits) —— `marketing/`（为 jojo 做营销）与 `console/`（一个
-  示例产品）。
-- [`guidelines/`](./guidelines) —— 关于颜色、字体、间距、几何与品牌的样例卡片。
+- [`ui_kits/`](./ui_kits) —— `marketing/` 与 `console/` 示例页面。
+- [`guidelines/`](./guidelines) —— 关于颜色、字体、间距、几何与资源的样例卡片。
 - `docs/` —— 散文式文档，含英文（`docs/en/`）与简体中文（`docs/zh-CN/`）。
 - [`SKILL.md`](./SKILL.md) —— 让你把这个目录当作 Agent Skill 使用。
 
-## 每一次改动都必须遵守的设计规则
+## 设计约束
 
-这些不是偏好。任何打破其中之一的改动都是“脱离系统”的，无论它单独看上去多么漂亮。
+提交 pull request 前，请检查改动是否符合以下约束：
 
-**五个标志。**
-
-1. **暖纸单色，单一色相。** 每一种中性色——文字色阶、描边、卡片色阶——都是同一种暖墨
-   叠入同一种暖纸而来。绝不要另选一种灰，更不要选冷调的蓝灰。
-2. **锐利的 4px 卡片，全药丸控件。** 近乎方正的容器；完全圆角的按钮、标签、圆点与
-   头像。不要柔和的 8–16px 卡片。
-3. **墨线描边与细描边并置。** 几乎不可见的细描边（`--hairline`）用于功能性外框，
-   完整的墨线描边（`--rule-ink`）用于强调或框定。两者之间的对比，正是这份克制的
-   标志所在。
-4. **大字号、轻字重的 grotesque 展示字体。** 展示字体以字重 400 配负字距排版。
-   层级来自字号与字距，而非字重。
-5. **平整、哑光，仅以一种橙色强调色表达状态。** 这种橙色（`--accent-orange`）只作为
-   链接、激活与焦点出现——绝不用作填充、背景或装饰。
-
-**反盒式布局。** 用能奏效的最廉价分隔手段来分组——空白、区块标题、细描边 `divide-y`、
-背景着色——再考虑动用一道边框。每个区域至多一个带边框的容器；绝不在卡片里再套卡片。
-
-**仅靠颜色的动效。** 状态反馈靠颜色，绝不靠几何。悬停、按下、激活与选中只切换某个
-令牌（一个色阶步进、一种文字色、焦点环）；它们绝不 `transform`、`scale`、`translate`，
-也不添加 `box-shadow`。`tokens/base.css` 中的 `prefers-reduced-motion` 守卫默认生效。
-
-**用解析后的令牌，而非硬编码取值。** 引用 `tokens/semantic.css` 中解析后的别名
-（`var(--bg-card)`、`var(--fg-1)`、`var(--accent-orange)`、`var(--hairline)`、
-`var(--rule-ink)`）。不要把十六进制、原始 HSL，或随手写的圆角与阴影粘进组件或 kit。
-
-**两种主题都达到 AA，以及键盘导航。** 每一次改动都必须在浅色**和**深色下都满足
-WCAG AA 对比度，并且完全可用键盘操作、带有可见的焦点环。在开 PR 之前，切换主题、
-用 Tab 走一遍你的改动。
+- 使用 `tokens/semantic.css` 中的语义令牌别名，例如 `var(--bg-card)`、
+  `var(--fg-1)`、`var(--accent-orange)`、`var(--hairline)` 和 `var(--rule-ink)`。
+- 新增原始颜色值时，写入 `tokens/colors.css`；新增语义别名时，写入
+  `tokens/semantic.css`。
+- 使用共享的圆角、间距、排版和动效令牌，不添加临时值。
+- `--accent-orange` 用于链接、激活状态和焦点状态。
+- 状态色用于内容、徽标和数据状态。
+- 交互状态应支持键盘操作，并具有可见焦点环。
+- 在浅色和深色主题下验证对比度。
 
 ## 新增一个设计令牌
 
@@ -98,13 +74,12 @@ WCAG AA 对比度，并且完全可用键盘操作、带有可见的焦点环。
    Tailwind bridge。
 3. 对于非颜色令牌，把它加到对应文件——`typography.css`、`geometry.css` 或
    `motion.css`。
-4. 保持单一色相的机制不变：一种新的中性色，是把已有的墨叠入已有的纸，而不是一种
-   新的灰。确认两种主题都达到 AA。
+4. 确认两种主题都达到 AA 对比度。
 
 ## 新增一个组件
 
 1. 在 `components/` 下正确的分组里创建 `.jsx`，用 `jojo-` 前缀的类名书写；把样式放进
-   `components/jojo.css`，且只引用解析后的令牌。把组件挂到 `window.JojoDesignSystem`
+   `components/jojo.css`，且只引用共享令牌。把组件挂到 `window.JojoDesignSystem`
    上，使使用者与样例卡片都能读取它。
 2. 在它旁边附一个 `.d.ts`，写明 prop 类型（形态参见
    `components/core/Badge.d.ts`）。
@@ -113,14 +88,13 @@ WCAG AA 对比度，并且完全可用键盘操作、带有可见的焦点环。
 4. 把该组件加进所属分组的样例卡片（`core.card.html`、`forms.card.html`、
    `surfaces.card.html` 或 `data.card.html`），使它在总览 SPA 中、在浅色与深色下
    都能出现。
-5. 确保它可用键盘操作、带共享的焦点环，并且状态仅以颜色表达。
+5. 确保它可用键盘操作，并带共享的焦点环。
 
 ## 新增一张指南卡片
 
 样例卡片位于 `guidelines/<group>/<name>.card.html`。每张卡片以一段 `@dsCard` HTML
 注释（`group`、`viewport`、`name`、`subtitle`）开头，供总览 SPA 读取以放置卡片，
-随后链接 `../../styles.css`，并渲染一个小而专注的演示。一张卡片只讲一个想法，并保持
-在系统之内——指南卡片要服从它所记录的同一套规则。
+随后链接 `../../styles.css`，并渲染一个小而专注的演示。一张卡片只讲一个想法。
 
 ## 文档是双语的
 
@@ -131,20 +105,19 @@ WCAG AA 对比度，并且完全可用键盘操作、带有可见的焦点环。
 - English：`**English** · [简体中文](<相对路径，指向 zh-CN 同级文件>)`
 - 简体中文：`[English](<相对路径，指向 en 同级文件>) · **简体中文**`
 
-用项目术语表翻译散文，但把令牌名、文件路径、组件名与品牌名 “jojo” 保持原样——
-绝不翻译标识符。
+用项目术语表翻译散文，但把令牌名、文件路径、组件名与项目名 “jojo” 保持原样。
+不要翻译标识符。
 
 ## 提交与合并请求
 
-- 让改动保持手术刀式的精准。改文案或取值，而不是动可用的类名、
+- 保持改动范围清晰。改文案或取值，而不是动可用的类名、
   `window.JojoDesignSystem` 命名空间、文件路径或令牌名，除非这正是本次改动的目的。
-- 提交信息用 sentence case、现在时书写，说明改了什么、服务于哪一条规则或标志。
+- 提交信息用 sentence case 和现在时书写。
 - 一个 PR 只谈一件事。在描述里说明你是如何验证的：打开了哪些页面、AA 在两种主题下
   都成立、键盘导航可用。
 - 当改动对用户可见时更新 [`CHANGELOG.md`](./CHANGELOG.md)，并让英文与简体中文文档
   保持同步。
-- 任何你新增的文案都要具体、不浮夸——sentence case、第二人称、产品或营销外框中
-  不用 emoji，UI 中不用感叹号。
+- 新增文案应具体。使用 sentence case。避免 emoji、口号、最高级和 UI 感叹号。
 
 ## 行为准则
 
