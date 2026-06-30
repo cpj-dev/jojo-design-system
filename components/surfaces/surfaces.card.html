@@ -1,0 +1,80 @@
+<!-- @dsCard group="Components" viewport="700x470" name="Surfaces — cards, callout, flyout" subtitle="Soft & outline cards, callouts, popover menu, tooltip" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Surface components</title>
+<link rel="stylesheet" href="../../styles.css" />
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="../../_ds_bundle.js"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+  body { margin: 0; padding: 22px 24px; }
+  .lbl { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.02em; color: var(--fg-2); text-transform: uppercase; margin-bottom: 9px; }
+  .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .ctitle { font-size: 13px; color: var(--fg-1); margin-bottom: 4px; }
+  .cbody { font-size: 12px; color: var(--fg-2); line-height: 1.45; }
+  .two { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 26px; align-items: start; margin-top: 20px; }
+  .stack { display: flex; flex-direction: column; gap: 12px; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+  const { Card, Callout, Flyout, Tooltip, IconButton } = window.JojoDesignSystem;
+  const I = (n) => <i data-lucide={n}></i>;
+
+  function Demo() {
+    return (
+      <div>
+        <div className="lbl">Cards — soft · outline · well</div>
+        <div className="cards">
+          <Card padding="md">
+            <div className="ctitle">Soft</div>
+            <div className="cbody">On the card ladder. Flat — depth is tone, not shadow.</div>
+          </Card>
+          <Card variant="outline" padding="md">
+            <div className="ctitle">Outline</div>
+            <div className="cbody">Paper + the hard near-black stroke. For emphasis / selected.</div>
+          </Card>
+          <Card well padding="md">
+            <div className="ctitle">Well</div>
+            <div className="cbody">Recessed fill for a grouped sub-region.</div>
+          </Card>
+        </div>
+
+        <div className="two">
+          <div className="stack">
+            <div className="lbl">Callouts</div>
+            <Callout title="Heads up" tone="info">Indexing runs in the background — your first answers may be partial.</Callout>
+            <Callout title="Usage limit near" tone="warning">You've used 80% of this month's fast requests.</Callout>
+          </div>
+
+          <div className="stack">
+            <div className="lbl">Flyout · tooltip</div>
+            <div style={{ display: 'flex', gap: 18, alignItems: 'flex-start' }}>
+              <Flyout style={{ width: 196 }} items={[
+                { label: 'Rename', icon: I('pencil') },
+                { label: 'Duplicate', icon: I('copy') },
+                { label: 'Move to…', icon: I('folder') },
+                { separator: true },
+                { label: 'Delete', icon: I('trash-2'), danger: true },
+              ]} />
+              <Tooltip content="Search — ⌘K">
+                <IconButton icon={I('search')} label="Search" shape="trigger" />
+              </Tooltip>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  ReactDOM.createRoot(document.getElementById('root')).render(<Demo />);
+  requestAnimationFrame(() => window.lucide && window.lucide.createIcons());
+</script>
+</body>
+</html>

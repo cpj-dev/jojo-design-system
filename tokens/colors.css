@@ -1,0 +1,125 @@
+/* ============================================================================
+   COLORS — the one-hue mechanism
+   One warm near-black ink (#26251e) mixed into one warm cream (#f7f7f4) at
+   graded steps, plus ONE warm-orange accent (#eb5600) used only for state.
+   Values authored as shadcn HSL triplets, consumed via hsl(var(--token)).
+   This is the shipped, WCAG-AA-verified set — treat as authoritative.
+   Default theme is LIGHT (:root). Dark opts in via .dark / [data-theme="dark"].
+   (Each triplet carries an @kind color annotation so the indexer classifies it.)
+   ========================================================================== */
+
+:root {
+  /* App frame + ink */
+  --background: 60 16% 96%;             /* @kind color */ /* paper — warm cream app frame #f7f7f4 */
+  --foreground: 53 12% 13%;             /* @kind color */ /* ink — warm near-black #26251e */
+
+  /* Default card / flyout surface (one hair off paper toward ink, #f2f1ed) */
+  --card: 48 16% 94%;                   /* @kind color */
+  --card-foreground: 53 12% 13%;        /* @kind color */
+  --popover: 48 16% 94%;                /* @kind color */
+  --popover-foreground: 53 12% 13%;     /* @kind color */
+
+  /* Primary = INK fill (action is black, accent is state); text = cream */
+  --primary: 53 12% 13%;                /* @kind color */
+  --primary-foreground: 60 16% 96%;     /* @kind color */
+
+  /* Ladder steps. NB shadcn "accent" = hover surface, NOT the brand orange. */
+  --secondary: 50 11% 89%;              /* @kind color */ /* bg-card-3 — secondary-button fill #e6e5e0 */
+  --secondary-foreground: 53 12% 13%;   /* @kind color */
+  --muted: 50 13% 91%;                  /* @kind color */ /* bg-card-2 — hover/muted surface #ebeae5 */
+  --muted-foreground: 50 4% 42%;        /* @kind color */ /* fg-2 — muted body; L42% clears AA 4.5:1 */
+  --accent: 50 13% 91%;                 /* @kind color */ /* hover surface (NOT orange) */
+  --accent-foreground: 53 12% 13%;      /* @kind color */
+
+  /* Destructive = crimson #cf2d56 (content/data only, quarantined from chrome) */
+  --destructive: 345 64% 49%;           /* @kind color */
+  --destructive-foreground: 60 16% 96%; /* @kind color */
+
+  /* Borders & inputs = warm hairline, lifted to ink @~14% (L82) so card edges +
+     row dividers are perceptible against the low-contrast paper ladder. */
+  --border: 48 8% 82%;                  /* @kind color */
+  --input: 48 8% 82%;                   /* @kind color */
+
+  /* Ring = the ONE accent: warm orange #eb5600 (links / active / focus only) */
+  --ring: 22 100% 46%;                  /* @kind color */
+
+  --radius: 0.25rem;                    /* @kind radius */ /* 4px — the dominant sharp-card radius */
+
+  /* Chart / data-viz series — accent orange + warm-neutral ladder + quarantined
+     status hues (info-blue, ok-green) used sparingly in CONTENT only. */
+  --chart-1: 22 100% 46%;               /* @kind color */ /* accent orange #eb5600 */
+  --chart-2: 50 4% 47%;                 /* @kind color */ /* warm-neutral muted (ink @~60%) */
+  --chart-3: 211 47% 43%;               /* @kind color */ /* info blue #3a6a9f */
+  --chart-4: 159 63% 33%;               /* @kind color */ /* ok green #1f8a65 */
+  --chart-5: 50 9% 30%;                 /* @kind color */ /* deep warm-neutral step */
+
+  /* Warn = a real warm-amber warning hue (status text/tint only, NOT chrome).
+     L31% clears AA (>=4.5:1) small text on paper, card, AND muted. */
+  --warn: 32 90% 31%;                   /* @kind color */ /* warm amber #964f06 */
+
+  /* Elevation — essentially FLAT. The only shadow is a near-invisible matte halo
+     (zero offset, ~2% black) on flyouts/popovers. Depth = the card ladder. */
+  --shadow-card:   0 0 1rem hsl(0 0% 0% / 0.02), 0 0 0.5rem hsl(0 0% 0% / 0.008);   /* @kind shadow */
+  --shadow-flyout: 0 0 1rem hsl(0 0% 0% / 0.02), 0 0 0.5rem hsl(0 0% 0% / 0.008);   /* @kind shadow */
+
+  /* SIGNATURE: the hard near-black 1px card outline (full ink) for emphasis cards. */
+  --outline-ink: 53 12% 13%;            /* @kind color */
+
+  /* Warm card ladder aliases — the full paper->ink ladder for direct use. */
+  --bg-card-1: 50 17% 93%;              /* @kind color */ /* sidebar / media well (one step off paper) */
+  --bg-card-2: var(--muted);            /* @kind color */ /* hover / tinted well */
+  --bg-card-3: var(--secondary);        /* @kind color */ /* secondary fill / segmented track */
+  --bg-card-4: 50 9% 87%;               /* @kind color */ /* deepest well */
+
+  color-scheme: light;
+}
+
+.dark,
+[data-theme="dark"] {
+  /* DARK — warm near-black editor ground (hue ~48), NOT blue-gray. Anchored on the
+     real auth-gate ground #100f0a. Cards LIFT by adding warm light to the ground;
+     the orange lifts for AA; same one-hue mechanism. */
+
+  --background: 48 18% 5%;              /* @kind color */ /* paper — warm near-black #100f0a */
+  --foreground: 48 6% 93%;              /* @kind color */ /* ink — warm off-white */
+
+  --card: 48 8% 11%;                    /* @kind color */
+  --card-foreground: 48 6% 93%;         /* @kind color */
+  --popover: 48 9% 10%;                 /* @kind color */
+  --popover-foreground: 48 6% 93%;      /* @kind color */
+
+  --primary: 48 6% 93%;                 /* @kind color */ /* warm off-white INK fill */
+  --primary-foreground: 48 18% 5%;      /* @kind color */
+
+  --secondary: 48 7% 17%;               /* @kind color */ /* bg-card-3 */
+  --secondary-foreground: 48 6% 93%;    /* @kind color */
+  --muted: 48 7% 14%;                   /* @kind color */ /* bg-card-2 hover/muted */
+  --muted-foreground: 48 5% 64%;        /* @kind color */ /* fg-2 (~ink @69%) */
+  --accent: 48 7% 15%;                  /* @kind color */ /* hover surface (NOT orange) */
+  --accent-foreground: 48 6% 93%;       /* @kind color */
+
+  --destructive: 345 70% 60%;           /* @kind color */ /* crimson, dark-lifted */
+  --destructive-foreground: 48 6% 93%;  /* @kind color */
+
+  --border: 48 8% 24%;                  /* @kind color */ /* hairline, lifted for parity */
+  --input: 48 8% 24%;                   /* @kind color */
+  --ring: 25 100% 60%;                  /* @kind color */ /* lifted warm orange #ff7a2e */
+
+  --chart-1: 25 100% 60%;               /* @kind color */ /* lifted accent orange */
+  --chart-2: 48 6% 58%;                 /* @kind color */
+  --chart-3: 211 55% 62%;               /* @kind color */
+  --chart-4: 159 50% 52%;               /* @kind color */
+  --chart-5: 40 20% 48%;                /* @kind color */
+  --warn: 38 95% 60%;                   /* @kind color */ /* lifted warm amber #f9a838 */
+
+  --shadow-card: none;                  /* @kind shadow */ /* dark cards float by tone alone */
+  --shadow-flyout: 0 0 1rem hsl(0 0% 0% / 0.3);  /* @kind shadow */
+  --outline-ink: 48 8% 32%;             /* @kind color */ /* hard edge lifts off warm-black */
+
+  --bg-card-1: 48 8% 9%;                /* @kind color */
+  --bg-card-2: var(--muted);            /* @kind color */
+  --bg-card-3: var(--secondary);        /* @kind color */
+  --bg-card-4: 48 7% 19%;               /* @kind color */
+
+  color-scheme: dark;
+}

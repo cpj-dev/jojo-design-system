@@ -1,0 +1,35 @@
+<!-- @dsCard group="Colors" viewport="700x190" name="Status — content only" subtitle="Quarantined to content & data viz. Chrome stays monochrome." -->
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8" /><link rel="stylesheet" href="../../styles.css" />
+<style>
+  body { margin: 0; padding: 18px 20px; }
+  .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  .col { display: flex; flex-direction: column; gap: 9px; }
+  .chip { height: 40px; border-radius: var(--radius); }
+  .badge { display: inline-flex; align-items: center; gap: 6px; align-self: flex-start; height: 22px; padding: 0 10px; border-radius: var(--radius-pill); font-size: 12px; }
+  .nm { font-family: var(--font-mono); font-size: 10.5px; color: var(--fg-2); }
+</style></head>
+<body>
+  <div class="grid">
+    <div class="col">
+      <div class="chip" style="background: var(--ok);"></div>
+      <div class="badge" style="background: var(--ok-tint); color: var(--ok); border: 1px solid var(--ok-edge);">Passing</div>
+      <div class="nm">--ok · #1f8a65</div>
+    </div>
+    <div class="col">
+      <div class="chip" style="background: var(--info);"></div>
+      <div class="badge" style="background: var(--info-tint); color: var(--info); border: 1px solid var(--info-edge);">Building</div>
+      <div class="nm">--info · #3a6a9f</div>
+    </div>
+    <div class="col">
+      <div class="chip" style="background: var(--warning);"></div>
+      <div class="badge" style="background: var(--warning-tint); color: var(--warning); border: 1px solid var(--warning-edge);">Queued</div>
+      <div class="nm">--warning · #964f06</div>
+    </div>
+    <div class="col">
+      <div class="chip" style="background: var(--danger);"></div>
+      <div class="badge" style="background: var(--danger-tint); color: var(--danger); border: 1px solid var(--danger-edge);">Failed</div>
+      <div class="nm">--danger · #cf2d56</div>
+    </div>
+  </div>
+</body></html>

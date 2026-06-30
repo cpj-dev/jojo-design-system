@@ -1,0 +1,17 @@
+/* ============================================================================
+   jojo Design System — global entry point.
+   Consumers link THIS one file. It is a list of @import lines only.
+   Order: fonts -> raw tokens -> resolved aliases -> type/geometry/motion -> base.
+   (tokens/tailwind-bridge.css is intentionally NOT imported — it is opt-in for
+   Tailwind v4 projects only; see readme.md.)
+   ========================================================================== */
+
+@import "./tokens/fonts.css";
+@import "./tokens/colors.css";
+@import "./tokens/semantic.css";
+@import "./tokens/typography.css";
+@import "./tokens/geometry.css";
+@import "./tokens/motion.css";
+@import "./tokens/base.css";
+@import "./components/jojo.css";
+

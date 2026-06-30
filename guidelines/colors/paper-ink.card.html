@@ -1,0 +1,21 @@
+<!-- @dsCard group="Colors" viewport="700x150" name="Paper & ink" subtitle="The two anchors — one warm cream, one warm near-black" -->
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8" /><link rel="stylesheet" href="../../styles.css" />
+<style>
+  body { margin: 0; padding: 18px 20px; }
+  .row { display: flex; gap: 14px; }
+  .sw { flex: 1; }
+  .chip { height: 62px; border-radius: var(--radius); border: 1px solid var(--hairline); }
+  .nm { font-size: 13px; color: var(--fg-1); margin-top: 9px; }
+  .hex { font-family: var(--font-mono); font-size: 11px; color: var(--fg-2); margin-top: 3px; }
+</style></head>
+<body>
+  <div class="row">
+    <div class="sw"><div class="chip" style="background: var(--bg-app);"></div>
+      <div class="nm">Paper — <code style="font-family:var(--font-mono)">--bg-app</code></div>
+      <div class="hex">#f7f7f4 · hsl(60 16% 96%)</div></div>
+    <div class="sw"><div class="chip" style="background: var(--fill-ink);"></div>
+      <div class="nm">Ink — <code style="font-family:var(--font-mono)">--fg-1 / --fill-ink</code></div>
+      <div class="hex">#26251e · hsl(53 12% 13%)</div></div>
+  </div>
+</body></html>

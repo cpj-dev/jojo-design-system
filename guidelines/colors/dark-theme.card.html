@@ -1,0 +1,26 @@
+<!-- @dsCard group="Colors" viewport="700x172" name="Dark theme" subtitle="Same one-hue mechanism on a warm near-black ground (#100f0a)" -->
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8" /><link rel="stylesheet" href="../../styles.css" />
+<style>
+  body { margin: 0; }
+  .dark { padding: 18px 20px; background: var(--bg-app); min-height: 100vh; box-sizing: border-box; }
+  .row { display: flex; gap: 8px; margin-bottom: 12px; }
+  .sw { flex: 1; }
+  .chip { height: 46px; border-radius: var(--radius); border: 1px solid var(--hairline); }
+  .nm { font-family: var(--font-mono); font-size: 10px; color: var(--fg-2); margin-top: 6px; }
+  .line { font-size: 14px; color: var(--fg-1); }
+  .muted { color: var(--fg-2); }
+  .lk { color: var(--accent-orange); }
+</style></head>
+<body>
+  <div class="dark">
+    <div class="row">
+      <div class="sw"><div class="chip" style="background: var(--bg-app);"></div><div class="nm">--bg-app</div></div>
+      <div class="sw"><div class="chip" style="background: var(--bg-card);"></div><div class="nm">--bg-card</div></div>
+      <div class="sw"><div class="chip" style="background: var(--bg-3);"></div><div class="nm">--bg-3</div></div>
+      <div class="sw"><div class="chip" style="background: var(--bg-4);"></div><div class="nm">--bg-4</div></div>
+      <div class="sw"><div class="chip" style="background: var(--accent-orange);"></div><div class="nm">--accent #ff7a2e</div></div>
+    </div>
+    <div class="line">Warm off-white ink on a warm near-black ground. <span class="muted">Muted ink for meta.</span> <span class="lk">The orange lifts to #ff7a2e for AA →</span></div>
+  </div>
+</body></html>

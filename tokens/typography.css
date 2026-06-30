@@ -1,0 +1,34 @@
+/* ============================================================================
+   TYPOGRAPHY — large, light grotesque display; hierarchy by size + tracking
+   Families: grotesque (UI + headings), mono (ALL code/command), serif (lead copy).
+   The system runs at weight 400; bump to 500 for some titles; 700 is RARE.
+
+   FAMILIES (all open-source, loaded from Google Fonts in fonts.css):
+     Geist        — grotesque sans / display (UI + headings)
+     Geist Mono   — monospace (ALL code/command)
+     EB Garamond  — serif (lead copy)
+   Each family is listed FIRST in its stack; the browser falls to the named
+   fallbacks until the webfont loads.
+   ========================================================================== */
+
+:root {
+  /* Families — never mix families within a single UI control */
+  --font-sans:  "Geist", Inter, system-ui, "Helvetica Neue", Arial, sans-serif;
+  --font-mono:  "Geist Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  --font-serif: "EB Garamond", "Iowan Old Style", "Palatino Linotype", ui-serif, Georgia, serif;
+
+  /* Type scale — LARGE + LIGHT; hierarchy via size + negative tracking, weight 400 */
+  --text-display: 72px;   --tracking-display: -2.16px;   /* hero, weight 400 */
+  --text-h1:      36px;   --tracking-h1: -0.72px;        /* page h1, weight 400 */
+  --text-h2:      18px;   --tracking-h2: -0.18px;        /* section head; 700 RARE */
+  --text-lg:      16px;                                  /* default reading / sidebar */
+  --text-body:    14px;                                  /* UI body, nav, buttons, table */
+  --text-label:   12px;                                  /* meta, mono code, tabs */
+
+  --leading-tight: 1.0;   --leading-body: 1.5;
+
+  --weight-base: 400;     --weight-med: 500;   --weight-bold: 700;  /* 700 is rare */
+
+  /* Measure — cap reading line length */
+  --measure: 68ch;
+}

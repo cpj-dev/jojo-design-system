@@ -1,0 +1,68 @@
+/* ============================================================================
+   BASE — minimal reset, base element defaults, focus ring, reduced-motion guard
+   Sets the warm-paper ground so any document that links styles.css reads correctly.
+   ========================================================================== */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--bg-app);
+  color: var(--fg-1);
+  font-family: var(--font-sans);
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
+  font-weight: var(--weight-base);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* Headings — large, light, negatively tracked. Hierarchy is size + tracking. */
+h1, h2, h3, h4 {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-weight: var(--weight-base);
+  line-height: var(--leading-tight);
+  color: var(--fg-1);
+  text-wrap: balance;
+}
+h1 { font-size: var(--text-h1); letter-spacing: var(--tracking-h1); }
+h2 { font-size: var(--text-h2); letter-spacing: var(--tracking-h2); }
+
+p { margin: 0; text-wrap: pretty; }
+
+/* Links — ink by default, no underline; the orange link is opt-in via [data-accent] */
+a { color: inherit; text-decoration: none; }
+
+/* Code — mono everywhere */
+code, kbd, pre, samp { font-family: var(--font-mono); }
+
+/* Form controls inherit the type system */
+button, input, select, textarea { font: inherit; color: inherit; }
+
+::selection { background: hsl(var(--ring) / 0.22); }
+
+/* The universal focus ring — the one place the orange touches chrome state.
+   1.5px accent outline, offset 2px, keyboard-only. */
+:focus-visible {
+  outline: 1.5px solid var(--focus);
+  outline-offset: 2px;
+}
+:focus:not(:focus-visible) { outline: none; }
+
+/* ----------------------------------------------------------------------------
+   The global reduced-motion guard (ship this — §7, §10.1).
+   App-wide floor so every animation respects prefers-reduced-motion without
+   per-component gating.
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

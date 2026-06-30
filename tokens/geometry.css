@@ -1,0 +1,42 @@
+/* ============================================================================
+   GEOMETRY — radius rhythm, spacing scale, control heights, the view shell
+   Three radius bands: 0px structural · 4px dominant · full-pill controls.
+   Density is lean-dense; whitespace only at section boundaries.
+   ALL borders are 1px — never thicker.
+   ========================================================================== */
+
+:root {
+  /* Radius rhythm — three bands (one radius per region; no nested radius) */
+  --radius-inline:  2px;     /* inline code */
+  /* --radius: 0.25rem (4px) is the DOMINANT band — defined in colors.css for
+     the shadcn bridge: cards, inputs, sidebar items, badges. */
+  --radius-trigger: 8px;     /* search / icon trigger, media cards */
+  --radius-callout: 10px;    /* callout box */
+  --radius-panel:   0px;     /* big page/section panels, nav, tabs, headings */
+  --radius-pill:    9999px;  /* EVERY button, version tag, toggle, status dot, avatar */
+
+  /* Borders — all 1px, always */
+  --border-width: 1px;
+
+  /* Density — lean-dense spacing scale */
+  --space-1: 2px;
+  --space-2: 4px;
+  --space-3: 6px;
+  --space-4: 8px;
+  --space-5: 10px;
+  --space-6: 14px;
+  --space-7: 20px;   /* between regions */
+  --space-8: 28px;   /* between major sections */
+
+  /* Control heights */
+  --row-h:     29px;   /* sidebar / nav rows */
+  --input-h:   44px;   /* real input */
+  --trigger-h: 36px;   /* search-as-trigger */
+
+  /* The single shared view-shell max-width (every top-level view) */
+  --view-max: 80rem;   /* ~1280px */
+
+  /* Shell inset — content shares the header's exact horizontal inset */
+  --shell-pad:    var(--space-7);   /* 20px */
+  --shell-pad-lg: var(--space-8);   /* 28px at >= lg */
+}

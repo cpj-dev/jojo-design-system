@@ -1,0 +1,31 @@
+<!-- @dsCard group="Brand" viewport="700x210" name="Interaction states" subtitle="Color-only feedback — rest / hover / focus / disabled / selected" -->
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8" /><link rel="stylesheet" href="../../styles.css" />
+<style>
+  body { margin: 0; padding: 18px 22px; }
+  .lbl { font-family: var(--font-mono); font-size: 10.5px; color: var(--fg-2); text-transform: uppercase; margin-bottom: 10px; }
+  .row { display: flex; gap: 22px; align-items: center; flex-wrap: wrap; }
+  .col { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+  .nm { font-family: var(--font-mono); font-size: 10px; color: var(--fg-2); }
+  .btn { display: inline-flex; align-items: center; height: 36px; padding: 0 16px; border-radius: var(--radius-pill); font-size: 14px; border: 1px solid transparent; }
+  .ink { background: var(--fill-ink); color: var(--fg-on-ink); }
+  .ink-hover { background: color-mix(in oklab, var(--fill-ink) 88%, var(--bg-app)); color: var(--fg-on-ink); }
+  .ink-focus { background: var(--fill-ink); color: var(--fg-on-ink); outline: 1.5px solid var(--accent-orange); outline-offset: 2px; }
+  .disabled { background: var(--bg-3); color: var(--fg-2); }
+  .sep { width: 1px; align-self: stretch; background: var(--hairline); }
+  .nav { font-size: 14px; color: var(--fg-2); padding-bottom: 3px; }
+  .nav.active { color: var(--accent-orange); border-bottom: 1.5px solid var(--accent-orange); }
+  .selrow { font-size: 13px; color: var(--fg-1); background: var(--bg-2); box-shadow: inset 0 0 0 1.5px hsl(var(--ring) / 0.5); border-radius: var(--radius); padding: 7px 12px; }
+</style></head>
+<body>
+  <div class="lbl">Button · the orange touches chrome only as the focus ring</div>
+  <div class="row">
+    <div class="col"><span class="btn ink">Download</span><span class="nm">rest</span></div>
+    <div class="col"><span class="btn ink-hover">Download</span><span class="nm">hover · ladder step</span></div>
+    <div class="col"><span class="btn ink-focus">Download</span><span class="nm">focus-visible · ring</span></div>
+    <div class="col"><span class="btn disabled">Download</span><span class="nm">disabled</span></div>
+    <div class="sep"></div>
+    <div class="col"><span class="nav">Docs</span> <span class="nav active">Pricing</span><span class="nm">nav · active</span></div>
+    <div class="col"><span class="selrow">Selected row</span><span class="nm">tint + inset ring</span></div>
+  </div>
+</body></html>

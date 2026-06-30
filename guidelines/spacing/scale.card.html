@@ -1,0 +1,20 @@
+<!-- @dsCard group="Spacing" viewport="700x230" name="Spacing scale" subtitle="Lean-dense — 2 / 4 / 6 / 8 / 10 / 14 / 20 / 28" -->
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8" /><link rel="stylesheet" href="../../styles.css" />
+<style>
+  body { margin: 0; padding: 18px 22px; }
+  .row { display: flex; align-items: center; gap: 14px; height: 22px; }
+  .nm { width: 70px; font-family: var(--font-mono); font-size: 11px; color: var(--fg-2); }
+  .bar { height: 12px; background: var(--fill-ink); border-radius: 1px; }
+  .px { font-family: var(--font-mono); font-size: 11px; color: var(--fg-2); }
+</style></head>
+<body>
+  <div class="row"><span class="nm">--space-1</span><span class="bar" style="width: var(--space-1);"></span><span class="px">2</span></div>
+  <div class="row"><span class="nm">--space-2</span><span class="bar" style="width: var(--space-2);"></span><span class="px">4</span></div>
+  <div class="row"><span class="nm">--space-3</span><span class="bar" style="width: var(--space-3);"></span><span class="px">6</span></div>
+  <div class="row"><span class="nm">--space-4</span><span class="bar" style="width: var(--space-4);"></span><span class="px">8</span></div>
+  <div class="row"><span class="nm">--space-5</span><span class="bar" style="width: var(--space-5);"></span><span class="px">10</span></div>
+  <div class="row"><span class="nm">--space-6</span><span class="bar" style="width: var(--space-6);"></span><span class="px">14 · within-region</span></div>
+  <div class="row"><span class="nm">--space-7</span><span class="bar" style="width: var(--space-7);"></span><span class="px">20 · between regions</span></div>
+  <div class="row"><span class="nm">--space-8</span><span class="bar" style="width: var(--space-8);"></span><span class="px">28 · between sections</span></div>
+</body></html>

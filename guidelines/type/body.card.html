@@ -1,0 +1,18 @@
+<!-- @dsCard group="Type" viewport="700x176" name="Body & reading" subtitle="Grotesque UI text — 16 reading / 14 body / 12 label" -->
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8" /><link rel="stylesheet" href="../../styles.css" />
+<style>
+  body { margin: 0; padding: 20px 22px; }
+  .stack { display: flex; flex-direction: column; gap: 13px; }
+  .lg { font-size: var(--text-lg); color: var(--fg-1); line-height: 1.5; }
+  .body { font-size: var(--text-body); color: var(--fg-1); line-height: 1.5; }
+  .label { font-size: var(--text-label); color: var(--fg-2); }
+  .tag { font-family: var(--font-mono); font-size: 10px; color: var(--fg-2); margin-left: 8px; }
+</style></head>
+<body>
+  <div class="stack">
+    <div class="lg">Reading size — the default for sidebars and lead UI copy.<span class="tag">16 / --text-lg</span></div>
+    <div class="body">Body — the workhorse for UI, nav, buttons, and tables. Set at line-height 1.5 with a 65–75ch measure.<span class="tag">14 / --text-body</span></div>
+    <div class="label">Label — meta, captions, tabs, and small print.<span class="tag">12 / --text-label</span></div>
+  </div>
+</body></html>

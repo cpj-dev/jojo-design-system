@@ -1,0 +1,23 @@
+<!-- @dsCard group="Spacing" viewport="700x176" name="Density in use" subtitle="Whitespace only at section boundaries; tight within" -->
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8" /><link rel="stylesheet" href="../../styles.css" />
+<style>
+  body { margin: 0; padding: 18px 22px; }
+  .shell { background: var(--bg-card); border: 1px solid var(--hairline); border-radius: var(--radius); padding: var(--space-7); }
+  .eyebrow { font-family: var(--font-mono); font-size: 10.5px; color: var(--fg-2); margin-bottom: var(--space-5); }
+  .list { display: flex; flex-direction: column; gap: var(--space-4); }
+  .item { display: flex; justify-content: space-between; font-size: 13px; color: var(--fg-1); }
+  .item span:last-child { color: var(--fg-2); font-family: var(--font-mono); font-size: 12px; }
+  .sect { border-top: 1px solid var(--hairline); margin-top: var(--space-7); padding-top: var(--space-7); font-size: 13px; color: var(--fg-2); }
+</style></head>
+<body>
+  <div class="shell">
+    <div class="eyebrow">USAGE · within-region gap = --space-4 (8)</div>
+    <div class="list">
+      <div class="item"><span>Fast requests</span><span>1,284</span></div>
+      <div class="item"><span>Tab completions</span><span>57,902</span></div>
+      <div class="item"><span>Agent runs</span><span>312</span></div>
+    </div>
+    <div class="sect">A new section opens with --space-7 (20) + one hairline — not a second box.</div>
+  </div>
+</body></html>

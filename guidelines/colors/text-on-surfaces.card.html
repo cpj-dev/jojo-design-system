@@ -1,0 +1,30 @@
+<!-- @dsCard group="Colors" viewport="700x150" name="Text on surfaces" subtitle="Ink + muted ink — AA on paper, card, and muted" -->
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8" /><link rel="stylesheet" href="../../styles.css" />
+<style>
+  body { margin: 0; padding: 18px 20px; }
+  .grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+  .tile { border-radius: var(--radius); border: 1px solid var(--hairline); padding: 12px 13px; }
+  .t1 { font-size: 14px; color: var(--fg-1); }
+  .t2 { font-size: 13px; color: var(--fg-2); margin-top: 5px; }
+  .tag { font-family: var(--font-mono); font-size: 10px; color: var(--fg-2); margin-top: 9px; }
+</style></head>
+<body>
+  <div class="grid">
+    <div class="tile" style="background: var(--bg-app);">
+      <div class="t1">Ink — primary text</div>
+      <div class="t2">Muted ink — meta &amp; secondary</div>
+      <div class="tag">on --bg-app</div>
+    </div>
+    <div class="tile" style="background: var(--bg-card);">
+      <div class="t1">Ink — primary text</div>
+      <div class="t2">Muted ink — meta &amp; secondary</div>
+      <div class="tag">on --bg-card</div>
+    </div>
+    <div class="tile" style="background: var(--bg-2);">
+      <div class="t1">Ink — primary text</div>
+      <div class="t2">Muted ink — meta &amp; secondary</div>
+      <div class="tag">on --bg-2 (muted)</div>
+    </div>
+  </div>
+</body></html>

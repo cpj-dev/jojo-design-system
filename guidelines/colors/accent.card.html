@@ -1,0 +1,31 @@
+<!-- @dsCard group="Colors" viewport="700x172" name="The one accent" subtitle="Warm orange — links, active state, focus ONLY. Never a fill." -->
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8" /><link rel="stylesheet" href="../../styles.css" />
+<style>
+  body { margin: 0; padding: 18px 20px; }
+  .wrap { display: flex; gap: 16px; align-items: stretch; }
+  .chip { width: 150px; border-radius: var(--radius); background: var(--accent-orange); }
+  .meta { align-self: flex-end; padding-bottom: 4px; }
+  .nm { font-size: 13px; color: var(--fg-1); }
+  .hex { font-family: var(--font-mono); font-size: 11px; color: var(--fg-2); margin-top: 3px; }
+  .uses { flex: 1; display: flex; flex-direction: column; gap: 9px; justify-content: center; padding-left: 4px; border-left: 1px solid var(--hairline); padding-left: 18px; }
+  .u { font-size: 13px; color: var(--fg-1); }
+  .lk { color: var(--accent-orange); }
+  .cta { color: var(--accent-orange); }
+  .nav { display: inline-block; color: var(--accent-orange); border-bottom: 1.5px solid var(--accent-orange); padding-bottom: 2px; }
+  .no { font-size: 11.5px; color: var(--fg-2); margin-top: 2px; }
+</style></head>
+<body>
+  <div class="wrap">
+    <div style="display:flex; flex-direction:column; gap:8px;">
+      <div class="chip" style="height:96px;"></div>
+      <div class="meta"><div class="nm">--accent-orange (--ring)</div><div class="hex">#eb5600 · hsl(22 100% 46%)</div></div>
+    </div>
+    <div class="uses">
+      <div class="u">Link text — <span class="lk">read the docs</span></div>
+      <div class="u">Active nav — <span class="nav">Pricing</span></div>
+      <div class="u">Tertiary CTA — <span class="cta">See the changelog →</span></div>
+      <div class="no">Never a button fill, background, or decoration. Focus rings use it too.</div>
+    </div>
+  </div>
+</body></html>

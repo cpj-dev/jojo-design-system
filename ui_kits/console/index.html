@@ -1,0 +1,161 @@
+<!-- @dsCard group="Console" viewport="1280x800" name="Console dashboard" subtitle="App shell — sidebar, topbar, deployments table, settings. Composed from DS primitives." -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>jojo — Console</title>
+<link rel="stylesheet" href="../../styles.css" />
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="../../_ds_bundle.js"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
+<script>window.DS = window.JojoDesignSystem || {};</script>
+<style>
+  html, body { height: 100%; }
+  .cs-app { display: grid; grid-template-columns: 248px 1fr; min-height: 100vh; }
+
+  /* ---- sidebar ---- */
+  .cs-sidebar { background: var(--bg-1); border-right: 1px solid var(--hairline); display: flex; flex-direction: column; padding: 14px 12px; height: 100vh; position: sticky; top: 0; }
+  .cs-side-top { padding: 4px 8px 12px; }
+  .cs-logo { display: flex; align-items: center; gap: 9px; color: var(--fg-1); font-size: 16px; font-weight: 500; letter-spacing: -0.3px; }
+  .cs-logo__chev { margin-left: auto; color: var(--fg-2); display: inline-flex; }
+  .cs-logo__chev svg { width: 15px; height: 15px; }
+  .cs-nav { display: flex; flex-direction: column; gap: 2px; flex: 1; overflow-y: auto; }
+  .cs-navitem { display: flex; align-items: center; gap: 10px; width: 100%; height: 32px; padding: 0 9px; border: 0; background: transparent; border-radius: var(--radius); color: var(--fg-1); font-size: 15px; cursor: pointer; transition: none; text-align: left; }
+  .cs-navitem svg { width: 17px; height: 17px; color: var(--fg-2); flex: 0 0 auto; }
+  .cs-navitem__label { line-height: 1; }
+  .cs-navitem:hover { background: var(--bg-2); }
+  .cs-navitem.is-active { color: var(--accent-orange); }
+  .cs-navitem.is-active svg { color: var(--accent-orange); }
+  .cs-navitem.is-active .cs-navitem__label { border-bottom: 1.5px solid var(--accent-orange); padding-bottom: 1px; }
+  .cs-nav__section { font-family: var(--font-mono); font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--fg-2); padding: 16px 9px 6px; }
+  .cs-side-foot { padding-top: 12px; margin-top: 8px; border-top: 1px solid var(--hairline); display: flex; flex-direction: column; gap: 12px; }
+  .cs-usage { padding: 0 9px; }
+  .cs-usage__row { display: flex; justify-content: space-between; font-size: 12px; color: var(--fg-2); margin-bottom: 6px; }
+  .cs-usage__num { font-family: var(--font-mono); color: var(--fg-1); }
+  .cs-usage__track { height: 4px; background: var(--bg-3); border-radius: var(--radius-pill); overflow: hidden; }
+  .cs-usage__fill { display: block; height: 100%; background: var(--fill-ink); }
+  .cs-user { display: flex; align-items: center; gap: 9px; padding: 6px 9px; }
+  .cs-user__meta { flex: 1; min-width: 0; }
+  .cs-user__name { font-size: 13px; color: var(--fg-1); }
+  .cs-user__plan { font-size: 11px; color: var(--fg-2); }
+  .cs-user__more { color: var(--fg-2); display: inline-flex; cursor: pointer; }
+  .cs-user__more svg { width: 16px; height: 16px; }
+
+  /* ---- main + topbar ---- */
+  .cs-main { display: flex; flex-direction: column; min-width: 0; }
+  .cs-topbar { position: sticky; top: 0; z-index: 30; background: var(--bg-app); border-bottom: 1px solid var(--hairline); display: grid; grid-template-columns: minmax(120px,auto) 1fr auto; align-items: center; gap: 18px; height: 56px; padding: 0 22px; }
+  .cs-topbar__title { font-size: 13px; color: var(--fg-2); white-space: nowrap; }
+  .cs-topbar__title b { color: var(--fg-1); font-weight: 500; }
+  .cs-topbar__search { justify-self: center; width: 100%; max-width: 440px; }
+  .cs-topbar__actions { display: flex; align-items: center; gap: 4px; }
+  .cs-topbar__avatar { margin-left: 6px; display: inline-flex; }
+
+  /* ---- views ---- */
+  .cs-view { padding: 24px clamp(20px, 3vw, 32px) 64px; }
+  .cs-view--narrow { max-width: 760px; }
+  .cs-page-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 18px; margin-bottom: 18px; }
+  .cs-h1 { font-size: 28px; font-weight: 400; letter-spacing: -0.5px; line-height: 1.1; }
+  .cs-h2 { font-size: 18px; font-weight: 500; letter-spacing: -0.2px; }
+  .cs-sub { font-size: 14px; color: var(--fg-2); margin-top: 6px; }
+
+  /* metrics — tint tiles grouped by gap, no borders */
+  .cs-metrics { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 30px; }
+  .cs-metric { background: var(--bg-card); border-radius: var(--radius); padding: 16px; }
+  .cs-metric__label { font-size: 12px; color: var(--fg-2); }
+  .cs-metric__value { font-size: 30px; font-weight: 400; letter-spacing: -0.5px; margin-top: 10px; line-height: 1; }
+  .cs-metric__delta { font-family: var(--font-mono); font-size: 11.5px; color: var(--fg-2); margin-top: 9px; }
+
+  .cs-section__head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px; }
+  .cs-list__row { display: grid; grid-template-columns: 1fr auto auto; align-items: center; gap: 18px; padding: 12px 4px; border-bottom: 1px solid var(--hairline); }
+  .cs-list__row:last-child { border-bottom: 0; }
+  .cs-list__name { font-family: var(--font-mono); font-size: 13px; color: var(--fg-1); }
+  .cs-list__status { display: inline-flex; align-items: center; gap: 7px; font-size: 13px; color: var(--fg-2); }
+  .cs-list__when { font-family: var(--font-mono); font-size: 12px; color: var(--fg-2); }
+
+  /* toolbar — 3-zone, one control height */
+  .cs-toolbar { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 12px; margin: 16px 0 12px; }
+  .cs-toolbar__lead { display: flex; align-items: center; gap: 10px; min-width: 0; }
+  .cs-toolbar__search { width: 300px; max-width: 46vw; }
+  .cs-toolbar__trail { display: flex; align-items: center; gap: 8px; }
+
+  .cs-deploy { font-family: var(--font-mono); font-size: 13px; color: var(--fg-1); }
+  .cs-deploy__branch { color: var(--fg-2); font-size: 12px; margin-left: 8px; }
+  .cs-cell-status { display: inline-flex; align-items: center; gap: 7px; }
+  .cs-actions { position: relative; display: flex; justify-content: flex-end; }
+  .cs-actions__menu { position: absolute; right: 0; top: calc(100% + 4px); z-index: 20; }
+  .cs-empty { padding: 48px; text-align: center; color: var(--fg-2); font-size: 14px; }
+
+  /* settings — sections of divide-y rows, no card-in-card */
+  .cs-set-section { padding: 22px 0; border-top: 1px solid var(--hairline); }
+  .cs-set-section__head { margin-bottom: 8px; }
+  .cs-set-row { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 14px 0; border-bottom: 1px solid var(--hairline); }
+  .cs-set-row:last-child { border-bottom: 0; }
+  .cs-set-row__meta { min-width: 0; }
+  .cs-set-row__label { font-size: 14px; color: var(--fg-1); }
+  .cs-set-row__hint { font-size: 12.5px; color: var(--fg-2); margin-top: 3px; max-width: 50ch; }
+  .cs-set-row__control { flex: 0 0 auto; width: 240px; display: flex; justify-content: flex-end; }
+  .cs-set-actions { display: flex; justify-content: flex-end; gap: 10px; padding-top: 22px; border-top: 1px solid var(--hairline); }
+
+  @media (max-width: 900px) {
+    .cs-app { grid-template-columns: 1fr; }
+    .cs-sidebar { display: none; }
+    .cs-metrics { grid-template-columns: repeat(2, 1fr); }
+    .cs-topbar__search { max-width: 280px; }
+  }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel" src="Sidebar.jsx"></script>
+<script type="text/babel" src="Topbar.jsx"></script>
+<script type="text/babel" src="OverviewView.jsx"></script>
+<script type="text/babel" src="DeploymentsView.jsx"></script>
+<script type="text/babel" src="SettingsView.jsx"></script>
+<script type="text/babel">
+  const { useState, useEffect } = React;
+
+  const TITLES = { overview: 'Overview', deployments: 'Deployments', analytics: 'Analytics', logs: 'Logs', members: 'Members', usage: 'Usage', settings: 'Settings' };
+
+  function EmptyView({ name }) {
+    return (
+      <div className="cs-view">
+        <div className="cs-page-head"><div><h1 className="cs-h1">{name}</h1><p className="cs-sub">This view isn't part of the kit demo — Overview, Deployments, and Settings are built out.</p></div></div>
+        <div className="cs-empty">Nothing here yet.</div>
+      </div>
+    );
+  }
+
+  function App() {
+    const [view, setView] = useState('deployments');
+    const [theme, setTheme] = useState(() => {
+      try { return localStorage.getItem('jojo-console-theme') || 'light'; } catch (e) { return 'light'; }
+    });
+    useEffect(() => {
+      document.documentElement.classList.toggle('dark', theme === 'dark');
+      try { localStorage.setItem('jojo-console-theme', theme); } catch (e) {}
+    }, [theme]);
+    useEffect(() => { if (window.lucide) window.lucide.createIcons(); });
+
+    let content;
+    if (view === 'overview') content = <OverviewView />;
+    else if (view === 'deployments') content = <DeploymentsView />;
+    else if (view === 'settings') content = <SettingsView theme={theme} onThemeChange={setTheme} />;
+    else content = <EmptyView name={TITLES[view]} />;
+
+    return (
+      <div className="cs-app">
+        <Sidebar active={view} onNavigate={setView} />
+        <div className="cs-main">
+          <Topbar title={<span>acme-inc / <b>{TITLES[view]}</b></span>} theme={theme} onToggleTheme={() => setTheme((t) => (t === 'dark' ? 'light' : 'dark'))} />
+          {content}
+        </div>
+      </div>
+    );
+  }
+  ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>

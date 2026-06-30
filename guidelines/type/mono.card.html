@@ -1,0 +1,19 @@
+<!-- @dsCard group="Type" viewport="700x176" name="Monospace" subtitle="Geist Mono — all code, command & literal input" -->
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8" /><link rel="stylesheet" href="../../styles.css" />
+<style>
+  body { margin: 0; padding: 20px 22px; }
+  .stack { display: flex; flex-direction: column; gap: 12px; }
+  pre { margin: 0; font-family: var(--font-mono); font-size: 12px; line-height: 1.65; color: var(--fg-1); background: var(--bg-2); border: 1px solid var(--hairline); border-radius: var(--radius); padding: 11px 13px; }
+  .inline { font-size: 14px; color: var(--fg-1); }
+  code { font-family: var(--font-mono); font-size: 12.5px; background: var(--bg-2); border: 1px solid var(--hairline); border-radius: var(--radius-inline); padding: 1px 6px; }
+  .kbd { display: inline-flex; align-items: center; justify-content: center; min-width: 20px; height: 20px; padding: 0 6px; border: 1px solid var(--hairline); border-radius: var(--radius-inline); background: var(--bg-2); color: var(--fg-2); font-family: var(--font-mono); font-size: 11px; }
+  .com { color: var(--fg-2); }
+</style></head>
+<body>
+  <div class="stack">
+    <pre><span class="com">// resolve a token at runtime</span>
+const accent = getComputedStyle(el).getPropertyValue('--accent-orange');</pre>
+    <div class="inline">Inline <code>jojo --version</code> · command palette <span class="kbd">⌘</span> <span class="kbd">K</span> · accept <span class="kbd">Tab</span></div>
+  </div>
+</body></html>

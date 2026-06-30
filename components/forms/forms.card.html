@@ -1,0 +1,80 @@
+<!-- @dsCard group="Components" viewport="700x500" name="Forms — inputs, select, toggles" subtitle="Inputs, search, select, checkbox, switch, segmented" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Form components</title>
+<link rel="stylesheet" href="../../styles.css" />
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="../../_ds_bundle.js"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+  body { margin: 0; padding: 22px 24px; }
+  .lbl { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.02em; color: var(--fg-2); text-transform: uppercase; margin-bottom: 9px; }
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 26px 28px; align-items: start; }
+  .stack { display: flex; flex-direction: column; gap: 12px; }
+  .row { display: flex; flex-wrap: wrap; align-items: center; gap: 14px; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+  const { Input, Textarea, Select, Checkbox, Switch, SegmentedControl } = window.JojoDesignSystem;
+  const { useState } = React;
+  const I = (n) => <i data-lucide={n}></i>;
+
+  function Demo() {
+    const [agree, setAgree] = useState(true);
+    const [privacy, setPrivacy] = useState(false);
+    const [view, setView] = useState('agent');
+
+    return (
+      <div className="cols">
+        <div className="stack">
+          <div className="lbl">Text · search · mono</div>
+          <Input label="Workspace name" defaultValue="acme-inc" />
+          <Input leadingIcon={I('search')} placeholder="Search the docs…" />
+          <Input label="API key" mono defaultValue="sk_live_8Q…" error="That key looks invalid." />
+        </div>
+
+        <div className="stack">
+          <div className="lbl">Select · textarea</div>
+          <Select label="Environment" options={['Production', 'Staging', 'Preview']} defaultValue="Production" />
+          <Textarea label="Commit message" rows={3} defaultValue="Refactor predict-edit cache" />
+        </div>
+
+        <div className="stack">
+          <div className="lbl">Checkbox · switch</div>
+          <Checkbox label="Enable Tab autocomplete" checked={agree} onChange={(e) => setAgree(e.target.checked)} />
+          <Checkbox label="Index large files" />
+          <Checkbox label="Locked policy" checked disabled />
+          <div className="row">
+            <Switch label="Privacy mode" checked={privacy} onChange={(e) => setPrivacy(e.target.checked)} />
+          </div>
+        </div>
+
+        <div className="stack">
+          <div className="lbl">Segmented control</div>
+          <SegmentedControl
+            value={view}
+            onChange={setView}
+            options={[
+              { value: 'agent', label: 'Agent' },
+              { value: 'ask', label: 'Ask' },
+              { value: 'manual', label: 'Manual' },
+            ]}
+          />
+          <div style={{ fontSize: 13, color: 'var(--fg-2)' }}>Selected: <code style={{ fontFamily: 'var(--font-mono)' }}>{view}</code></div>
+        </div>
+      </div>
+    );
+  }
+
+  ReactDOM.createRoot(document.getElementById('root')).render(<Demo />);
+  requestAnimationFrame(() => window.lucide && window.lucide.createIcons());
+</script>
+</body>
+</html>

@@ -1,0 +1,6 @@
+<svg width="92" height="28" viewBox="0 0 92 28" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="jojo">
+  <rect x="0.5" y="0.5" width="27" height="27" rx="5" stroke="currentColor" stroke-opacity="0.18"></rect>
+  <circle cx="15.6" cy="8" r="2" fill="currentColor"></circle>
+  <path d="M15.6 12 V17.4 C15.6 20.3 13.4 21.7 10.8 21" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"></path>
+  <text x="36" y="20" font-family="Geist, Inter, system-ui, sans-serif" font-size="20" font-weight="500" letter-spacing="-0.6" fill="currentColor">jojo</text>
+</svg>

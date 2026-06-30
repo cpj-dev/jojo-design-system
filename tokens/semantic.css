@@ -1,0 +1,70 @@
+/* ============================================================================
+   SEMANTIC COLOR ALIASES — ready-to-use resolved values
+   The raw tokens in colors.css are shadcn HSL triplets (consumed via
+   hsl(var(--token))). These aliases wrap them in hsl() ONCE so plain CSS / JSX
+   can drop them straight into a `style` (e.g. background: var(--bg-card)).
+   They are theme-aware automatically: each references a triplet that swaps in
+   .dark, so define here under :root only.
+
+   Naming avoids every shadcn triplet name — never redefine --card, --accent,
+   --primary, --border, --ring, --bg-card-1..4, etc. (that would break the
+   raw layer / Tailwind bridge).
+
+   IMPORTANT: these aliases are declared under :root AND .dark/[data-theme] so the
+   inner var(--background) etc. RE-RESOLVES per theme scope. Declaring them on :root
+   alone would bake the light values at :root and inherit them frozen into .dark.
+   ========================================================================== */
+
+:root,
+.dark,
+[data-theme="dark"] {
+  /* --- Surfaces: the warm paper -> ink ladder --- */
+  --bg-app:      hsl(var(--background));   /* page paper — app frame, nav, tabs */
+  --bg-1:        hsl(var(--bg-card-1));    /* sidebar / media well (1 step off paper) */
+  --bg-card:     hsl(var(--card));         /* default card + flyout surface */
+  --bg-2:        hsl(var(--bg-card-2));    /* hover / muted / tinted well */
+  --bg-3:        hsl(var(--bg-card-3));    /* secondary fill / segmented track */
+  --bg-4:        hsl(var(--bg-card-4));    /* deepest well */
+  --bg-popover:  hsl(var(--popover));      /* flyout / dropdown / tooltip surface */
+
+  /* --- Ink (text) --- */
+  --fg-1:        hsl(var(--foreground));        /* primary ink text */
+  --fg-2:        hsl(var(--muted-foreground));  /* muted body / meta (AA-tuned) */
+  --fg-on-ink:   hsl(var(--primary-foreground));/* cream text on an ink fill */
+
+  /* --- Action fill (action is black) --- */
+  --fill-ink:    hsl(var(--primary));      /* primary CTA / ink button fill */
+
+  /* --- The ONE accent (state only: links / active-nav / focus) --- */
+  --accent-orange: hsl(var(--ring));       /* never a fill, background, or decoration */
+  --link:          hsl(var(--ring));       /* role alias */
+  --focus:         hsl(var(--ring));       /* role alias — focus-visible ring */
+
+  /* --- Borders: the dual system --- */
+  --hairline:    hsl(var(--border));       /* barely-there divider / utility edge */
+  --rule-ink:    hsl(var(--outline-ink));  /* SIGNATURE hard near-black 1px outline */
+
+  /* --- Status (content + data viz ONLY — never chrome) --- */
+  --ok:        hsl(var(--chart-4));        /* success green */
+  --info:      hsl(var(--chart-3));        /* info blue */
+  --warning:   hsl(var(--warn));           /* warm amber (AA-tuned) */
+  --danger:    hsl(var(--destructive));    /* crimson */
+  --on-danger: hsl(var(--destructive-foreground));
+
+  /* Faint status tints (the badge/wash pattern: 12% fill, 45% border, solid fg) */
+  --ok-tint:      hsl(var(--chart-4) / 0.12);
+  --ok-edge:      hsl(var(--chart-4) / 0.45);
+  --info-tint:    hsl(var(--chart-3) / 0.12);
+  --info-edge:    hsl(var(--chart-3) / 0.45);
+  --warning-tint: hsl(var(--warn) / 0.12);
+  --warning-edge: hsl(var(--warn) / 0.45);
+  --danger-tint:  hsl(var(--destructive) / 0.12);
+  --danger-edge:  hsl(var(--destructive) / 0.45);
+
+  /* Elevation passthroughs (flat by design) */
+  --elevation-card:   var(--shadow-card);
+  --elevation-flyout: var(--shadow-flyout);
+
+  /* Overlay scrim — a flat ink wash (no backdrop-blur, ever) */
+  --scrim: hsl(var(--foreground) / 0.25);
+}

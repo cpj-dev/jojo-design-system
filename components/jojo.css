@@ -1,0 +1,312 @@
+/* ============================================================================
+   COMPONENT STYLES — jojo- (jojo design system)
+   Thin React primitives render these classes; rules live here so :hover /
+   :focus-visible / :active / :disabled are REAL and correct, and consumers who
+   link styles.css get them for free. Declares NO tokens — only consumes var().
+   State feedback is COLOR ONLY (ladder step / text / ring). No transform, no
+   scale, no shadow on interactive elements. Chrome state = instant (0s).
+   ========================================================================== */
+
+/* ---------------------------------------------------------------- Buttons -- */
+.jojo-btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  gap: var(--space-3);
+  font-family: var(--font-sans); font-size: var(--text-body);
+  font-weight: var(--weight-base); line-height: 1;
+  letter-spacing: -0.07px;
+  height: var(--trigger-h); padding: 0 var(--space-6);
+  border-radius: var(--radius-pill);
+  border: var(--border-width) solid transparent;
+  background: transparent; color: var(--fg-1);
+  cursor: pointer; user-select: none; white-space: nowrap;
+  transition: none;               /* instant — chrome state never animates */
+  text-decoration: none;
+}
+.jojo-btn--sm { height: 28px; padding: 0 var(--space-5); font-size: var(--text-label); }
+.jojo-btn--lg { height: var(--input-h); padding: 0 var(--space-7); font-size: var(--text-lg); }
+.jojo-btn svg { width: 1.05em; height: 1.05em; flex: 0 0 auto; }
+
+/* primary — INK fill, cream text, border = fill (the orange is NEVER a fill) */
+.jojo-btn--primary { background: var(--fill-ink); color: var(--fg-on-ink); border-color: var(--fill-ink); }
+.jojo-btn--primary:hover { background: color-mix(in oklab, var(--fill-ink) 88%, var(--bg-app)); border-color: transparent; }
+.jojo-btn--primary:active { background: var(--fill-ink); }
+
+/* secondary — bg-card-3 fill, ink text, faint hairline; hover steps toward ink */
+.jojo-btn--secondary { background: var(--bg-3); color: var(--fg-1); border-color: var(--hairline); }
+.jojo-btn--secondary:hover { background: var(--bg-4); }
+.jojo-btn--secondary:active { background: var(--bg-2); }
+
+/* ghost — transparent, ink text, ghost hairline edge */
+.jojo-btn--ghost { background: transparent; color: var(--fg-1); border-color: var(--hairline); }
+.jojo-btn--ghost:hover { background: var(--bg-2); }
+.jojo-btn--ghost:active { background: var(--bg-3); }
+
+/* outline — the hard ink edge (border = ink), paper fill: emphasis CTA */
+.jojo-btn--outline { background: transparent; color: var(--fg-1); border-color: var(--rule-ink); }
+.jojo-btn--outline:hover { background: var(--bg-2); }
+.jojo-btn--outline:active { background: var(--bg-3); }
+
+/* tertiary — the accent CTA: no box, orange text + trailing arrow; dims, no underline */
+.jojo-btn--tertiary { background: transparent; color: var(--accent-orange); border-color: transparent; padding: 0 var(--space-2); height: auto; gap: var(--space-2); }
+.jojo-btn--tertiary:hover { color: color-mix(in oklab, var(--accent-orange) 75%, transparent); }
+
+/* quinary — bare ink text, no chrome */
+.jojo-btn--quinary { background: transparent; color: var(--fg-1); border-color: transparent; padding: 0 var(--space-3); }
+.jojo-btn--quinary:hover { color: var(--fg-2); }
+
+.jojo-btn:disabled, .jojo-btn[aria-disabled="true"] {
+  background: var(--bg-3); color: var(--fg-2); border-color: transparent;
+  cursor: not-allowed; pointer-events: none;
+}
+.jojo-btn--tertiary:disabled, .jojo-btn--quinary:disabled,
+.jojo-btn--tertiary[aria-disabled="true"], .jojo-btn--quinary[aria-disabled="true"] { background: transparent; }
+
+/* ------------------------------------------------------------ IconButton -- */
+.jojo-iconbtn {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: var(--trigger-h); height: var(--trigger-h); padding: 0;
+  border-radius: var(--radius-pill);
+  border: var(--border-width) solid transparent;
+  background: transparent; color: var(--fg-1);
+  cursor: pointer; transition: none;
+}
+.jojo-iconbtn--sm { width: 28px; height: 28px; }
+.jojo-iconbtn--trigger { border-radius: var(--radius-trigger); border-color: var(--hairline); }
+.jojo-iconbtn svg { width: 1.1em; height: 1.1em; }
+.jojo-iconbtn:hover { background: var(--bg-2); }
+.jojo-iconbtn:active { background: var(--bg-3); }
+.jojo-iconbtn:disabled, .jojo-iconbtn[aria-disabled="true"] { color: var(--fg-2); cursor: not-allowed; pointer-events: none; }
+
+/* ------------------------------------------------------------- Badge/Tag -- */
+.jojo-badge {
+  display: inline-flex; align-items: center; gap: var(--space-3);
+  height: 22px; padding: 0 var(--space-5);
+  border-radius: var(--radius-pill);
+  font-family: var(--font-sans); font-size: var(--text-label); line-height: 1;
+  border: var(--border-width) solid var(--hairline);
+  background: var(--bg-3); color: var(--fg-1);
+  white-space: nowrap; flex: 0 0 auto;
+}
+.jojo-badge--mono { font-family: var(--font-mono); }
+.jojo-badge--ok      { background: var(--ok-tint);      color: var(--ok);      border-color: var(--ok-edge); }
+.jojo-badge--info    { background: var(--info-tint);    color: var(--info);    border-color: var(--info-edge); }
+.jojo-badge--warning { background: var(--warning-tint); color: var(--warning); border-color: var(--warning-edge); }
+.jojo-badge--danger  { background: var(--danger-tint);  color: var(--danger);  border-color: var(--danger-edge); }
+
+.jojo-tag {
+  display: inline-flex; align-items: center; gap: var(--space-3);
+  height: 24px; padding: 0 var(--space-5);
+  border-radius: var(--radius-pill);
+  font-family: var(--font-sans); font-size: var(--text-label); line-height: 1;
+  border: var(--border-width) solid var(--hairline);
+  background: transparent; color: var(--fg-1); white-space: nowrap; flex: 0 0 auto;
+}
+.jojo-tag__x {
+  display: inline-flex; align-items: center; justify-content: center;
+  margin-right: -2px; width: 14px; height: 14px; border-radius: var(--radius-pill);
+  background: transparent; border: 0; color: var(--fg-2); cursor: pointer; transition: none;
+}
+.jojo-tag__x:hover { color: var(--fg-1); background: var(--bg-2); }
+
+/* ------------------------------------------------------------- StatusDot -- */
+.jojo-dot { display: inline-block; width: 8px; height: 8px; border-radius: var(--radius-pill); background: var(--fg-2); flex: 0 0 auto; }
+.jojo-dot--ok { background: var(--ok); }
+.jojo-dot--info { background: var(--info); }
+.jojo-dot--warning { background: var(--warning); }
+.jojo-dot--danger { background: var(--danger); }
+.jojo-dot--accent { background: var(--accent-orange); }
+
+/* ---------------------------------------------------------------- Avatar -- */
+.jojo-avatar {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 32px; height: 32px; border-radius: var(--radius-pill);
+  background: var(--bg-3); color: var(--fg-1);
+  font-family: var(--font-sans); font-size: var(--text-label); font-weight: var(--weight-med);
+  overflow: hidden; flex: 0 0 auto; border: var(--border-width) solid var(--hairline);
+}
+.jojo-avatar--sm { width: 24px; height: 24px; font-size: 10px; }
+.jojo-avatar--lg { width: 44px; height: 44px; font-size: var(--text-body); }
+.jojo-avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+/* ------------------------------------------------------------------- Kbd -- */
+.jojo-kbd {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 20px; height: 20px; padding: 0 var(--space-3);
+  border-radius: var(--radius-inline);
+  border: var(--border-width) solid var(--hairline); border-bottom-width: 1px;
+  background: var(--bg-2); color: var(--fg-2);
+  font-family: var(--font-mono); font-size: 11px; line-height: 1;
+}
+
+/* ------------------------------------------------------------- Separator -- */
+.jojo-sep { border: 0; background: var(--hairline); }
+.jojo-sep--h { height: 1px; width: 100%; margin: 0; }
+.jojo-sep--v { width: 1px; align-self: stretch; min-height: 1em; margin: 0 var(--space-4); }
+
+/* ---------------------------------------------------------- Input/Field --- */
+.jojo-field { display: flex; flex-direction: column; gap: var(--space-3); }
+.jojo-field__label { font-size: var(--text-label); color: var(--fg-2); letter-spacing: 0; }
+.jojo-field__hint { font-size: var(--text-label); color: var(--fg-2); }
+.jojo-field__hint--error { color: var(--danger); }
+
+.jojo-input, .jojo-textarea, .jojo-select {
+  width: 100%; height: var(--input-h); padding: 0 var(--space-6);
+  background: var(--bg-card); color: var(--fg-1);
+  border: var(--border-width) solid var(--hairline); border-radius: var(--radius);
+  font-family: var(--font-sans); font-size: var(--text-body); line-height: 1.4;
+  transition: border-color var(--motion-color), box-shadow var(--motion-color);
+  outline: none;
+}
+.jojo-input--sm { height: var(--trigger-h); }
+.jojo-input--mono { font-family: var(--font-mono); }
+.jojo-textarea { height: auto; min-height: 88px; padding: var(--space-5) var(--space-6); resize: vertical; line-height: var(--leading-body); }
+.jojo-input::placeholder, .jojo-textarea::placeholder { color: var(--fg-2); }
+.jojo-input:focus, .jojo-textarea:focus, .jojo-select:focus {
+  border-color: var(--rule-ink);
+  box-shadow: 0 0 0 1.5px hsl(var(--ring) / 0.45);
+}
+.jojo-input:disabled, .jojo-textarea:disabled, .jojo-select:disabled {
+  background: var(--bg-3); color: var(--fg-2); cursor: not-allowed;
+}
+.jojo-input[aria-invalid="true"], .jojo-textarea[aria-invalid="true"] { border-color: var(--danger); }
+
+/* select wrapper + chevron */
+.jojo-select-wrap { position: relative; display: block; }
+.jojo-select { appearance: none; -webkit-appearance: none; padding-right: 34px; cursor: pointer; }
+.jojo-select-wrap__chev { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); pointer-events: none; color: var(--fg-2); display: inline-flex; }
+.jojo-select-wrap__chev svg { width: 16px; height: 16px; }
+
+/* search trigger (input as a 36px trigger) */
+.jojo-search { position: relative; display: flex; align-items: center; }
+.jojo-search__icon { position: absolute; left: 12px; color: var(--fg-2); display: inline-flex; pointer-events: none; }
+.jojo-search__icon svg { width: 16px; height: 16px; }
+.jojo-search .jojo-input { height: var(--trigger-h); padding-left: 34px; border-radius: var(--radius-trigger); }
+
+/* ------------------------------------------------------------- Checkbox --- */
+.jojo-check { display: inline-flex; align-items: center; gap: var(--space-4); cursor: pointer; user-select: none; font-size: var(--text-body); color: var(--fg-1); }
+.jojo-check input { position: absolute; opacity: 0; width: 0; height: 0; }
+.jojo-check__box {
+  width: 16px; height: 16px; border-radius: var(--radius);
+  border: var(--border-width) solid var(--hairline); background: var(--bg-card);
+  display: inline-flex; align-items: center; justify-content: center; color: transparent;
+  transition: none; flex: 0 0 auto;
+}
+.jojo-check__box svg { width: 12px; height: 12px; }
+.jojo-check:hover .jojo-check__box { border-color: var(--rule-ink); }
+.jojo-check input:checked + .jojo-check__box { background: var(--fill-ink); border-color: var(--fill-ink); color: var(--fg-on-ink); }
+.jojo-check input:focus-visible + .jojo-check__box { outline: 1.5px solid var(--focus); outline-offset: 2px; }
+.jojo-check input:disabled ~ * { color: var(--fg-2); }
+.jojo-check--disabled { cursor: not-allowed; color: var(--fg-2); }
+
+/* --------------------------------------------------------------- Switch ---- */
+.jojo-switch { display: inline-flex; align-items: center; gap: var(--space-4); cursor: pointer; user-select: none; color: var(--fg-1); font-size: var(--text-body); }
+.jojo-switch input { position: absolute; opacity: 0; width: 0; height: 0; }
+.jojo-switch__track {
+  width: 34px; height: 20px; border-radius: var(--radius-pill);
+  background: var(--bg-3); border: var(--border-width) solid var(--hairline);
+  display: inline-flex; align-items: center; padding: 2px; transition: none; flex: 0 0 auto;
+}
+.jojo-switch__knob { width: 14px; height: 14px; border-radius: var(--radius-pill); background: var(--bg-app); margin-left: 0; transition: none; }
+.jojo-switch input:checked + .jojo-switch__track { background: var(--fill-ink); border-color: var(--fill-ink); justify-content: flex-end; }
+.jojo-switch input:checked + .jojo-switch__track .jojo-switch__knob { background: var(--fg-on-ink); }
+.jojo-switch input:focus-visible + .jojo-switch__track { outline: 1.5px solid var(--focus); outline-offset: 2px; }
+.jojo-switch--disabled { cursor: not-allowed; color: var(--fg-2); }
+
+/* ----------------------------------------------------- SegmentedControl --- */
+.jojo-seg {
+  display: inline-flex; align-items: center; gap: 2px; padding: 2px;
+  background: var(--bg-3); border-radius: var(--radius-pill);
+  border: var(--border-width) solid var(--hairline);
+}
+.jojo-seg__item {
+  display: inline-flex; align-items: center; gap: var(--space-3);
+  height: 26px; padding: 0 var(--space-5); border: 0; background: transparent;
+  border-radius: var(--radius-pill); cursor: pointer;
+  font-family: var(--font-sans); font-size: var(--text-label); color: var(--fg-2);
+  transition: none; white-space: nowrap;
+}
+.jojo-seg__item svg { width: 14px; height: 14px; }
+.jojo-seg__item:hover { color: var(--fg-1); }
+.jojo-seg__item[aria-selected="true"] { background: var(--bg-card); color: var(--fg-1); }
+.jojo-seg__item:focus-visible { outline: 1.5px solid var(--focus); outline-offset: 2px; }
+
+/* ---------------------------------------------------------------- Card ----- */
+.jojo-card { background: var(--bg-card); border-radius: var(--radius); border: var(--border-width) solid transparent; box-shadow: none; }
+.jojo-card--hairline { border-color: var(--hairline); }
+.jojo-card--outline { background: var(--bg-app); border-color: var(--rule-ink); }
+.jojo-card--well { background: var(--bg-1); }
+.jojo-card--pad { padding: var(--space-7); }
+.jojo-card--pad-lg { padding: var(--space-8); }
+button.jojo-card, a.jojo-card { display: block; width: 100%; text-align: left; cursor: pointer; transition: none; font: inherit; color: inherit; }
+.jojo-card--interactive:hover { background: var(--bg-2); }
+.jojo-card--interactive.jojo-card--outline:hover { background: var(--bg-1); }
+.jojo-card--interactive:focus-visible { outline: 1.5px solid var(--focus); outline-offset: 2px; }
+
+/* ------------------------------------------------------------- Callout ----- */
+.jojo-callout {
+  background: var(--bg-1); border: var(--border-width) solid var(--hairline);
+  border-radius: var(--radius-callout); padding: var(--space-6) var(--space-7);
+  font-size: var(--text-body); color: var(--fg-1); line-height: var(--leading-body);
+}
+.jojo-callout__title { font-size: var(--text-body); font-weight: var(--weight-med); margin-bottom: var(--space-3); }
+.jojo-callout__title .jojo-dot { margin-right: var(--space-4); vertical-align: middle; }
+
+/* ------------------------------------------------------- Flyout / Tooltip -- */
+.jojo-flyout {
+  background: var(--bg-popover); color: var(--fg-1);
+  border: var(--border-width) solid var(--hairline); border-radius: var(--radius);
+  box-shadow: var(--shadow-flyout); padding: var(--space-3);
+  min-width: 180px;
+}
+.jojo-flyout__item {
+  display: flex; align-items: center; gap: var(--space-4); width: 100%;
+  padding: var(--space-4) var(--space-5); border: 0; background: transparent;
+  border-radius: var(--radius); cursor: pointer; transition: none;
+  font-family: var(--font-sans); font-size: var(--text-body); color: var(--fg-1); text-align: left;
+}
+.jojo-flyout__item svg { width: 16px; height: 16px; color: var(--fg-2); }
+.jojo-flyout__item:hover { background: var(--bg-2); }
+.jojo-flyout__item:focus-visible { outline: 1.5px solid var(--focus); outline-offset: -1px; }
+.jojo-flyout__item--danger { color: var(--danger); }
+.jojo-flyout__item--danger svg { color: var(--danger); }
+.jojo-flyout__sep { height: 1px; background: var(--hairline); margin: var(--space-3) calc(-1 * var(--space-3)); }
+
+.jojo-tooltip {
+  background: var(--fill-ink); color: var(--fg-on-ink);
+  border-radius: var(--radius); padding: var(--space-3) var(--space-5);
+  font-family: var(--font-sans); font-size: var(--text-label); line-height: 1.3;
+  max-width: 260px; box-shadow: var(--shadow-flyout);
+}
+.jojo-tooltip-wrap { position: relative; display: inline-flex; }
+.jojo-tooltip-pop { position: absolute; z-index: 50; left: 50%; transform: translateX(-50%); bottom: calc(100% + 6px); white-space: nowrap; pointer-events: none; }
+
+/* ---------------------------------------------------------------- Tabs ----- */
+.jojo-tabs { display: flex; align-items: stretch; gap: 0; border-bottom: var(--border-width) solid var(--hairline); }
+.jojo-tab {
+  appearance: none; border: 0; background: transparent; cursor: pointer;
+  padding: var(--space-5) var(--space-6); margin-bottom: -1px;
+  font-family: var(--font-sans); font-size: var(--text-body); color: var(--fg-2);
+  border-bottom: 1.5px solid transparent; transition: none; white-space: nowrap;
+  display: inline-flex; align-items: center; gap: var(--space-3);
+}
+.jojo-tab svg { width: 15px; height: 15px; }
+.jojo-tab:hover { color: var(--fg-1); }
+.jojo-tab[aria-selected="true"] { color: var(--fg-1); border-bottom-color: var(--accent-orange); }
+.jojo-tab:focus-visible { outline: 1.5px solid var(--focus); outline-offset: -3px; }
+
+/* --------------------------------------------------------------- Table ----- */
+.jojo-table-wrap { width: 100%; overflow-x: auto; }
+.jojo-table { width: 100%; border-collapse: collapse; font-size: var(--text-body); }
+.jojo-table thead th {
+  text-align: left; font-weight: var(--weight-base); color: var(--fg-2);
+  font-size: var(--text-label); padding: var(--space-4) var(--space-5);
+  border-bottom: var(--border-width) solid var(--hairline); white-space: nowrap;
+}
+.jojo-table tbody td { padding: var(--space-5); border-bottom: var(--border-width) solid var(--hairline); color: var(--fg-1); vertical-align: middle; }
+.jojo-table tbody tr:last-child td { border-bottom: 0; }
+.jojo-table .jojo-num { text-align: right; font-variant-numeric: tabular-nums; font-family: var(--font-mono); font-size: var(--text-label); }
+.jojo-table th.jojo-num { text-align: right; }
+.jojo-table tbody tr.jojo-row--clickable { cursor: pointer; transition: none; }
+.jojo-table tbody tr.jojo-row--clickable:hover td { background: var(--bg-2); }
+.jojo-table tbody tr.jojo-row--selected td { background: var(--bg-2); box-shadow: inset 0 0 0 1.5px hsl(var(--ring) / 0.5); }
+.jojo-table tbody tr.jojo-row--clickable:focus-visible { outline: 1.5px solid var(--focus); outline-offset: -2px; }

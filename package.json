@@ -1,0 +1,46 @@
+{
+  "name": "jojo-design-system",
+  "version": "0.1.0",
+  "description": "jojo — an original, framework-agnostic \"warm paper, drawn in ink\" design system: design tokens, React component primitives, full-screen UI kits, and foundation specimen cards.",
+  "license": "MIT",
+  "author": "perelmangao <perelmangao@gmail.com>",
+  "keywords": [
+    "design-system",
+    "design-tokens",
+    "css-variables",
+    "react",
+    "components",
+    "ui-kit",
+    "warm-paper",
+    "monochrome",
+    "framework-agnostic",
+    "jojo"
+  ],
+  "style": "styles.css",
+  "sideEffects": [
+    "*.css"
+  ],
+  "exports": {
+    ".": "./styles.css",
+    "./styles.css": "./styles.css",
+    "./tokens/*": "./tokens/*",
+    "./components/*": "./components/*",
+    "./tailwind-bridge.css": "./tokens/tailwind-bridge.css"
+  },
+  "files": [
+    "styles.css",
+    "tokens/",
+    "components/",
+    "guidelines/",
+    "ui_kits/",
+    "assets/",
+    "docs/",
+    "SKILL.md",
+    "README.md",
+    "README.zh-CN.md"
+  ],
+  "scripts": {
+    "start": "npx --yes serve .",
+    "dev": "npx --yes serve ."
+  }
+}

@@ -1,0 +1,32 @@
+<!-- @dsCard group="Brand" viewport="700x210" name="Anti-box layout" subtitle="Never a card in a card — group with whitespace, a header, a hairline" -->
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8" /><link rel="stylesheet" href="../../styles.css" />
+<style>
+  body { margin: 0; padding: 18px 22px; }
+  .row { display: flex; gap: 16px; }
+  .col { flex: 1; }
+  .tag { font-family: var(--font-mono); font-size: 10.5px; margin-bottom: 8px; }
+  .bad .tag { color: var(--danger); }
+  .good .tag { color: var(--ok); }
+  /* DON'T — boxes in boxes */
+  .outer { background: var(--bg-card); border: 1px solid var(--rule-ink); border-radius: var(--radius); padding: 10px; }
+  .inner { background: var(--bg-app); border: 1px solid var(--hairline); border-radius: var(--radius); padding: 8px; margin-bottom: 6px; font-size: 12px; color: var(--fg-1); }
+  .inner:last-child { margin-bottom: 0; }
+  /* DO — one surface, divide-y */
+  .clean { background: var(--bg-card); border: 1px solid var(--hairline); border-radius: var(--radius); padding: 4px 14px; }
+  .item { font-size: 12px; color: var(--fg-1); padding: 9px 0; border-bottom: 1px solid var(--hairline); }
+  .item:last-child { border-bottom: 0; }
+</style></head>
+<body>
+  <div class="row">
+    <div class="col bad">
+      <div class="tag">✗ box-in-box</div>
+      <div class="outer"><div class="inner">Item one</div><div class="inner">Item two</div><div class="inner">Item three</div></div>
+    </div>
+    <div class="col good">
+      <div class="tag">✓ one surface · divide-y</div>
+      <div class="clean"><div class="item">Item one</div><div class="item">Item two</div><div class="item">Item three</div></div>
+    </div>
+  </div>
+  <div style="font-size:11.5px;color:var(--fg-2);margin-top:13px;line-height:1.5;">At most one bordered container per region. Max nesting depth 2. Stat tiles group by grid gap, not six borders.</div>
+</body></html>

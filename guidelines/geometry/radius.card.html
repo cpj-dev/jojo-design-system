@@ -1,0 +1,20 @@
+<!-- @dsCard group="Geometry" viewport="700x172" name="Radius rhythm" subtitle="0 structural · 4 dominant · 8 trigger · 10 callout · full pill" -->
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8" /><link rel="stylesheet" href="../../styles.css" />
+<style>
+  body { margin: 0; padding: 18px 22px; }
+  .row { display: flex; gap: 18px; align-items: flex-end; }
+  .col { display: flex; flex-direction: column; align-items: center; gap: 9px; }
+  .sq { width: 72px; height: 72px; background: var(--bg-3); border: 1px solid var(--rule-ink); }
+  .pill { width: 96px; height: 40px; background: var(--bg-3); border: 1px solid var(--rule-ink); border-radius: var(--radius-pill); }
+  .nm { font-family: var(--font-mono); font-size: 10.5px; color: var(--fg-2); text-align: center; }
+</style></head>
+<body>
+  <div class="row">
+    <div class="col"><div class="sq" style="border-radius: var(--radius-panel);"></div><div class="nm">0 · panel</div></div>
+    <div class="col"><div class="sq" style="border-radius: var(--radius);"></div><div class="nm">4 · card</div></div>
+    <div class="col"><div class="sq" style="border-radius: var(--radius-trigger);"></div><div class="nm">8 · trigger</div></div>
+    <div class="col"><div class="sq" style="border-radius: var(--radius-callout);"></div><div class="nm">10 · callout</div></div>
+    <div class="col"><div class="pill"></div><div class="nm">pill · controls</div></div>
+  </div>
+</body></html>
