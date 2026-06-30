@@ -1,6 +1,6 @@
 /* ============================================================================
    BASE — minimal reset, base element defaults, focus ring, reduced-motion guard
-   Sets the warm-paper ground so any document that links styles.css reads correctly.
+   Sets page-level defaults for documents that link styles.css.
    ========================================================================== */
 
 *, *::before, *::after { box-sizing: border-box; }

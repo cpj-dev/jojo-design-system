@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>jojo — warm-paper design system</title>
+<title>jojo — design system</title>
 <link rel="stylesheet" href="styles.css" />
 <style>
   .shell { max-width: var(--view-max); margin: 0 auto; padding-inline: clamp(20px, 4vw, 28px); }
@@ -31,7 +31,7 @@
   .ov-sec__title { font-size: clamp(24px, 3.4vw, 34px); font-weight: 400; letter-spacing: -0.02em; margin: 10px 0 0; }
   .ov-sec__lede { font-size: 15px; color: var(--fg-2); line-height: 1.6; max-width: 64ch; margin-top: 12px; }
 
-  /* signatures */
+  /* constraints */
   .ov-sigs { display: grid; grid-template-columns: repeat(5, 1fr); gap: 22px; margin-top: 36px; }
   .ov-sig__n { font-family: var(--font-mono); font-size: 12px; color: var(--accent-orange); }
   .ov-sig__t { font-size: 15px; font-weight: 500; margin: 10px 0 6px; letter-spacing: -0.01em; }
@@ -88,7 +88,7 @@
         <svg width="26" height="26" viewBox="0 0 28 28" fill="none" aria-hidden="true"><rect x="0.5" y="0.5" width="27" height="27" rx="5" stroke="currentColor" stroke-opacity="0.2"/><circle cx="15.6" cy="8" r="2" fill="currentColor"/><path d="M15.6 12 V17.4 C15.6 20.3 13.4 21.7 10.8 21" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
         <span>jojo</span>
       </span>
-      <span class="ov-top__tag">warm-paper design system</span>
+      <span class="ov-top__tag">design system</span>
       <span class="ov-top__spacer"></span>
       <span class="ov-top__hint">All cards live in the <b style="color:var(--fg-1);font-weight:500">Design System</b> tab</span>
       <button class="ov-toggle" id="themeToggle" aria-label="Toggle theme"></button>
@@ -98,23 +98,23 @@
   <main>
     <section class="ov-hero">
       <div class="shell">
-        <div class="ov-eyebrow">one ink · one paper · one accent</div>
-        <h1>Warm paper,<br/>drawn in ink.</h1>
-        <p>A portable, framework-agnostic system. The entire palette is one warm near-black ink mixed into one warm cream at graded steps, with a single warm-orange accent used only for state.</p>
-        <p class="ov-serif">The mechanism is the brand — copy the mechanism and you copy jojo.</p>
+        <div class="ov-eyebrow">CSS tokens · React components · example layouts</div>
+        <h1>Design tokens and React components.</h1>
+        <p>jojo provides CSS custom properties, component styles, React primitives, and example layouts. The CSS layer can be used without a JavaScript framework.</p>
+        <p class="ov-serif">Use the stylesheet, reference token aliases, and compose the provided components.</p>
       </div>
     </section>
 
     <section class="ov-sec">
       <div class="shell">
         <div class="ov-sec__eyebrow">foundations</div>
-        <h2 class="ov-sec__title">Five signatures</h2>
+        <h2 class="ov-sec__title">Design constraints</h2>
         <div class="ov-sigs">
-          <div class="ov-sig"><div class="ov-sig__n">01</div><div class="ov-sig__t">Warm monochrome</div><div class="ov-sig__d">One hue, mechanically. Every neutral is ink stepped into paper. Olive-warm, never blue-gray.</div></div>
-          <div class="ov-sig"><div class="ov-sig__n">02</div><div class="ov-sig__t">Sharp + pill</div><div class="ov-sig__d">Near-square 4px cards; fully-rounded buttons, tags, and dots. No soft 12–16px cards.</div></div>
-          <div class="ov-sig"><div class="ov-sig__n">03</div><div class="ov-sig__t">The ink outline</div><div class="ov-sig__d">A hard near-black 1px stroke for emphasis, beside a barely-there hairline for chrome.</div></div>
-          <div class="ov-sig"><div class="ov-sig__n">04</div><div class="ov-sig__t">Light display</div><div class="ov-sig__d">36–72px at weight 400 with negative tracking. Hierarchy by size, not weight.</div></div>
-          <div class="ov-sig"><div class="ov-sig__n">05</div><div class="ov-sig__t">Flat, one accent</div><div class="ov-sig__d">Depth is the card ladder, not shadow. The orange is link / active / focus only — never a fill.</div></div>
+          <div class="ov-sig"><div class="ov-sig__n">01</div><div class="ov-sig__t">Color scale</div><div class="ov-sig__d">Neutral values come from one HSL scale and resolve through semantic aliases.</div></div>
+          <div class="ov-sig"><div class="ov-sig__n">02</div><div class="ov-sig__t">Radius</div><div class="ov-sig__d">Cards use 4px. Buttons, tags, avatars, and compact controls use a full radius.</div></div>
+          <div class="ov-sig"><div class="ov-sig__n">03</div><div class="ov-sig__t">Borders</div><div class="ov-sig__d">Use `--hairline` for standard borders and `--rule-ink` for higher-contrast borders.</div></div>
+          <div class="ov-sig"><div class="ov-sig__n">04</div><div class="ov-sig__t">Typography</div><div class="ov-sig__d">Display text uses weight 400 and negative tracking. Hierarchy comes from size.</div></div>
+          <div class="ov-sig"><div class="ov-sig__n">05</div><div class="ov-sig__t">State color</div><div class="ov-sig__d">`--accent-orange` is reserved for links, active states, and focus states.</div></div>
         </div>
       </div>
     </section>
@@ -122,11 +122,11 @@
     <section class="ov-sec">
       <div class="shell">
         <div class="ov-sec__eyebrow">color</div>
-        <h2 class="ov-sec__title">One ink, one paper, one accent</h2>
+        <h2 class="ov-sec__title">Theme color tokens</h2>
         <div class="ov-pal-anchor">
-          <div><div class="ov-chip" style="background:var(--bg-app)"></div><div class="ov-chip__meta"><div class="ov-chip__nm">Paper · --bg-app</div><div class="ov-chip__hex">#f7f7f4</div></div></div>
-          <div><div class="ov-chip" style="background:var(--fill-ink)"></div><div class="ov-chip__meta"><div class="ov-chip__nm">Ink · --fg-1</div><div class="ov-chip__hex">#26251e</div></div></div>
-          <div><div class="ov-chip" style="background:var(--accent-orange)"></div><div class="ov-chip__meta"><div class="ov-chip__nm">Accent · --accent-orange</div><div class="ov-chip__hex">#eb5600 — state only</div></div></div>
+          <div><div class="ov-chip" style="background:var(--bg-app)"></div><div class="ov-chip__meta"><div class="ov-chip__nm">Background · --bg-app</div><div class="ov-chip__hex">#f7f7f4</div></div></div>
+          <div><div class="ov-chip" style="background:var(--fill-ink)"></div><div class="ov-chip__meta"><div class="ov-chip__nm">Primary fill · --fill-ink</div><div class="ov-chip__hex">#26251e</div></div></div>
+          <div><div class="ov-chip" style="background:var(--accent-orange)"></div><div class="ov-chip__meta"><div class="ov-chip__nm">State · --accent-orange</div><div class="ov-chip__hex">#eb5600</div></div></div>
         </div>
         <div class="ov-ladder">
           <div style="background:var(--bg-app)"></div>
@@ -141,7 +141,7 @@
           <span class="ov-badge" style="background:var(--info-tint);color:var(--info);border:1px solid var(--info-edge)">Building</span>
           <span class="ov-badge" style="background:var(--warning-tint);color:var(--warning);border:1px solid var(--warning-edge)">Queued</span>
           <span class="ov-badge" style="background:var(--danger-tint);color:var(--danger);border:1px solid var(--danger-edge)">Failed</span>
-          <span style="font-size:12.5px;color:var(--fg-2);align-self:center">— status lives in content, chrome stays monochrome</span>
+          <span style="font-size:12.5px;color:var(--fg-2);align-self:center">— status colors are used for content and data states</span>
         </div>
       </div>
     </section>
@@ -151,8 +151,8 @@
         <div class="ov-sec__eyebrow">type</div>
         <h2 class="ov-sec__title">Three families, four roles</h2>
         <div class="ov-type">
-          <div class="ov-type__row"><div class="ov-type__k">display · 400</div><div class="ov-type__display">Warm paper, drawn in ink</div></div>
-          <div class="ov-type__row"><div class="ov-type__k">body · sans</div><div class="ov-type__body">The grotesque carries all UI and headings. Body runs at 14–16px, line-height 1.5, with a 65–75ch measure.</div></div>
+          <div class="ov-type__row"><div class="ov-type__k">display · 400</div><div class="ov-type__display">Design tokens and components</div></div>
+          <div class="ov-type__row"><div class="ov-type__k">body · sans</div><div class="ov-type__body">Geist is used for UI text and headings. Body text runs at 14–16px, line-height 1.5, with a 65–75ch measure.</div></div>
           <div class="ov-type__row"><div class="ov-type__k">mono · code</div><div class="ov-type__mono">const accent = getComputedStyle(el).getPropertyValue('--accent-orange');</div></div>
           <div class="ov-type__row"><div class="ov-type__k">serif · lead</div><div class="ov-type__serif">EB Garamond is reserved for real long-form lead copy and pull-quotes.</div></div>
         </div>
@@ -163,16 +163,16 @@
       <div class="shell">
         <div class="ov-sec__eyebrow">explore</div>
         <h2 class="ov-sec__title">UI kits</h2>
-        <p class="ov-sec__lede">Full-screen recreations composed from the design-system primitives — interactive, with a working light/dark toggle.</p>
+        <p class="ov-sec__lede">Example pages composed from the design-system primitives, with a working light/dark toggle.</p>
         <div class="ov-kits">
           <a class="ov-kit" href="ui_kits/marketing/index.html">
             <div class="ov-kit__t">Marketing site</div>
-            <div class="ov-kit__d">Nav, hero, feature grid, pricing, footer. Flat warm paper, large light display, the anti-box feature grid.</div>
+            <div class="ov-kit__d">Nav, hero, feature grid, pricing, and footer built with the component primitives.</div>
             <span class="ov-kit__go">Open the marketing kit →</span>
           </a>
           <a class="ov-kit" href="ui_kits/console/index.html">
             <div class="ov-kit__t">Console dashboard</div>
-            <div class="ov-kit__d">App shell, sidebar, a deployments table with a filter toolbar + row flyout, and anti-box settings.</div>
+            <div class="ov-kit__d">App shell, sidebar, deployments table, filter toolbar, row flyout, and settings view.</div>
             <span class="ov-kit__go">Open the console kit →</span>
           </a>
         </div>
@@ -189,7 +189,7 @@
       <div class="shell">
         <p class="ov-foot__note"><b style="color:var(--fg-1);font-weight:500">Fonts</b> — Geist (sans/display), Geist Mono (code), and EB Garamond (serif) are open-source, loaded from Google Fonts.</p>
         <p class="ov-foot__note"><b style="color:var(--fg-1);font-weight:500">Logo</b> — the jojo lowercase-"j" monogram (assets/logo/). <b style="color:var(--fg-1);font-weight:500">Icons</b> — Lucide via CDN.</p>
-        <p class="ov-foot__note">© 2026 perelmangao — the jojo design system · portable source of truth.</p>
+        <p class="ov-foot__note">© 2026 perelmangao — MIT-licensed design system.</p>
       </div>
     </footer>
   </main>

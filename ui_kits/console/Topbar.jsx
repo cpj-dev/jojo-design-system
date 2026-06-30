@@ -1,5 +1,4 @@
-/* Console — top bar. Three-zone grid [title | search | actions]; one control height.
-   Sits on the page paper with a bottom hairline. Theme toggle is inline SVG. */
+/* Console top bar with title, search, actions, and theme toggle. */
 const { Input: TbInput, IconButton: TbIconButton, Avatar: TbAvatar } = window.DS;
 
 const TbSun = () => (

@@ -1,4 +1,4 @@
-Tiny ink-fill label on hover + focus. Wrap a focusable trigger.
+Small label shown on hover and focus. Wrap a focusable trigger.
 
 ```jsx
 <Tooltip content="Search — ⌘K">

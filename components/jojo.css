@@ -19,7 +19,7 @@
   border: var(--border-width) solid transparent;
   background: transparent; color: var(--fg-1);
   cursor: pointer; user-select: none; white-space: nowrap;
-  transition: none;               /* instant — chrome state never animates */
+  transition: none;               /* immediate state changes */
   text-decoration: none;
 }
 .jojo-btn--sm { height: 28px; padding: 0 var(--space-5); font-size: var(--text-label); }
@@ -36,21 +36,21 @@
 .jojo-btn--secondary:hover { background: var(--bg-4); }
 .jojo-btn--secondary:active { background: var(--bg-2); }
 
-/* ghost — transparent, ink text, ghost hairline edge */
+/* ghost — transparent text button with a standard border */
 .jojo-btn--ghost { background: transparent; color: var(--fg-1); border-color: var(--hairline); }
 .jojo-btn--ghost:hover { background: var(--bg-2); }
 .jojo-btn--ghost:active { background: var(--bg-3); }
 
-/* outline — the hard ink edge (border = ink), paper fill: emphasis CTA */
+/* outline — higher-contrast border */
 .jojo-btn--outline { background: transparent; color: var(--fg-1); border-color: var(--rule-ink); }
 .jojo-btn--outline:hover { background: var(--bg-2); }
 .jojo-btn--outline:active { background: var(--bg-3); }
 
-/* tertiary — the accent CTA: no box, orange text + trailing arrow; dims, no underline */
+/* tertiary — text CTA with trailing arrow */
 .jojo-btn--tertiary { background: transparent; color: var(--accent-orange); border-color: transparent; padding: 0 var(--space-2); height: auto; gap: var(--space-2); }
 .jojo-btn--tertiary:hover { color: color-mix(in oklab, var(--accent-orange) 75%, transparent); }
 
-/* quinary — bare ink text, no chrome */
+/* quinary — bare text button */
 .jojo-btn--quinary { background: transparent; color: var(--fg-1); border-color: transparent; padding: 0 var(--space-3); }
 .jojo-btn--quinary:hover { color: var(--fg-2); }
 

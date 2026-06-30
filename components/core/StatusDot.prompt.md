@@ -1,4 +1,4 @@
-A small filled status circle — the brand's preferred state indicator (not an icon, not emoji).
+A small filled status circle.
 
 ```jsx
 <StatusDot tone="ok" label="Operational" />

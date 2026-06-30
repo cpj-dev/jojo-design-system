@@ -1,10 +1,9 @@
 import React from 'react';
 
 /**
- * Table — a divided card grid: divide-y hairline rows, no zebra, no outer border,
- * no radius. Numeric columns are right-aligned tabular mono. A selected row gets a
- * `--bg-2` tint + inset accent ring (NEVER a per-row border). Scrolls inside its
- * wrapper on narrow viewports — it never pushes the page width.
+ * Table with divided rows. Numeric columns are right-aligned tabular mono. A
+ * selected row gets a `--bg-2` tint and inset accent ring. The table scrolls
+ * inside its wrapper on narrow viewports.
  *
  * columns: [{ key, label, numeric?, width?, render?(value,row) }]
  */

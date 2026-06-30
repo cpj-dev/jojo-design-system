@@ -1,11 +1,11 @@
 /* ============================================================================
    FONTS — webfont loading
    jojo's three families are all open-source, loaded here from Google Fonts:
-   Geist (grotesque sans / display), Geist Mono (monospace), EB Garamond (serif).
+   Geist (sans), Geist Mono (monospace), EB Garamond (serif).
    They are listed first in each stack in typography.css. See README.md "Fonts".
    ============================================================================ */
 
-/* Geist (sans/display) — full weight range for light display
-   Geist Mono — all code/command
-   EB Garamond (serif) — regular + italic for editorial lead copy */
+/* Geist — sans weights
+   Geist Mono — monospace weights
+   EB Garamond — serif regular + italic */
 @import url('https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap');

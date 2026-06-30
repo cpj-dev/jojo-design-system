@@ -2,14 +2,8 @@
 
 # Contributing to jojo
 
-Thanks for helping with jojo. jojo is an original, framework-agnostic design
-system — "warm paper, drawn in ink" — written by [perelmangao](mailto:perelmangao@gmail.com)
-and named after the author's cat. It is MIT-licensed (see [LICENSE](./LICENSE))
-and unaffiliated with any company or product.
-
-The design language is the point. Most of this guide is about keeping every
-change inside that language, so the system stays one coherent thing across
-tokens, components, UI kits, and docs.
+Thanks for helping with jojo. This guide explains how to run the project, update
+docs, add tokens, add components, and prepare pull requests.
 
 ## Running locally
 
@@ -53,52 +47,28 @@ React primitives are exposed on `window.JojoDesignSystem`.
   Switch, SegmentedControl), surfaces (Card, Callout, Flyout, Tooltip), and data
   (Table, Tabs). Component CSS lives in `components/jojo.css`. Each primitive
   ships a `.d.ts`, a `.prompt.md`, and is shown in its group's `.card.html`.
-- [`ui_kits/`](./ui_kits) — `marketing/` (markets jojo) and `console/` (an
-  example product).
+- [`ui_kits/`](./ui_kits) — `marketing/` and `console/` example pages.
 - [`guidelines/`](./guidelines) — specimen cards for colors, type, spacing,
-  geometry, and brand.
+  geometry, and assets.
 - `docs/` — the prose docs, in English (`docs/en/`) and Simplified Chinese
   (`docs/zh-CN/`).
 - [`SKILL.md`](./SKILL.md) — lets you use this folder as an Agent Skill.
 
-## Design rules every change must respect
+## Design constraints
 
-These are not preferences. A change that breaks one of them is off-system,
-however nice it looks on its own.
+Before opening a pull request, check that your change follows these constraints:
 
-**The five signatures.**
-
-1. **Warm paper monochrome, one hue.** Every neutral — text steps, borders, the
-   card ladder — is one warm ink stepped into one warm paper. Never hand-pick a
-   separate grey, and never a cool blue-grey.
-2. **Sharp 4px cards, full-pill controls.** Near-square containers; fully
-   rounded buttons, tags, dots, and avatars. No soft 8–16px cards.
-3. **The hard ink outline beside a hairline.** A barely-there hairline
-   (`--hairline`) for utility chrome, the full ink outline (`--rule-ink`) for
-   emphasis or framing. The contrast between the two is the refined tell.
-4. **Large light grotesque display.** Display type runs at weight 400 with
-   negative tracking. Hierarchy comes from size and tracking, not weight.
-5. **Flat and matte, one orange accent for state only.** The orange
-   (`--accent-orange`) appears as link, active, and focus only — never as a
-   fill, background, or decoration.
-
-**Anti-box layout.** Group with the cheapest separator that works — whitespace,
-a section header, a hairline `divide-y`, a background tint — before you reach for
-a border. At most one bordered container per region; never a card inside a card.
-
-**Color-only motion.** State feedback is color, never geometry. Hover, press,
-active, and selected swap a token (a ladder step, a text color, the focus ring);
-they never `transform`, `scale`, `translate`, or add a `box-shadow`. The
-`prefers-reduced-motion` guard in `tokens/base.css` is honored by default.
-
-**Resolved tokens, not hardcoded values.** Reference the resolved aliases from
-`tokens/semantic.css` (`var(--bg-card)`, `var(--fg-1)`, `var(--accent-orange)`,
-`var(--hairline)`, `var(--rule-ink)`). Do not paste hex values, raw HSL, or
-ad-hoc radii and shadows into a component or kit.
-
-**AA in both themes, and keyboard nav.** Every change must clear WCAG AA contrast
-in light **and** dark, and be fully operable from the keyboard with a visible
-focus ring. Toggle the theme and tab through your change before you open a PR.
+- Use semantic token aliases from `tokens/semantic.css`, such as
+  `var(--bg-card)`, `var(--fg-1)`, `var(--accent-orange)`, `var(--hairline)`,
+  and `var(--rule-ink)`.
+- Add new raw color values in `tokens/colors.css` and new aliases in
+  `tokens/semantic.css`.
+- Use the shared radius, spacing, typography, and motion tokens instead of local
+  values.
+- Use `--accent-orange` for links, active states, and focus states.
+- Use status colors for content, badges, and data states.
+- Keep interactive states keyboard-operable with a visible focus ring.
+- Verify contrast in light and dark themes.
 
 ## Adding a design token
 
@@ -112,14 +82,13 @@ focus ring. Toggle the theme and tab through your change before you open a PR.
    `--border`, `--ring`, …) — that breaks the raw layer and the Tailwind bridge.
 3. For a non-color token, add it to the matching file — `typography.css`,
    `geometry.css`, or `motion.css`.
-4. Keep the one-hue mechanism intact: a new neutral is the existing ink stepped
-   into the existing paper, not a fresh grey. Confirm AA in both themes.
+4. Confirm AA contrast in both themes.
 
 ## Adding a component
 
 1. Create the `.jsx` in the right group under `components/` and write it with
    `jojo-` prefixed classes; put the styles in `components/jojo.css`, referencing
-   resolved tokens only. Expose the component on `window.JojoDesignSystem` so
+   shared tokens only. Expose the component on `window.JojoDesignSystem` so
    consumers and the specimen cards can read it.
 2. Ship a `.d.ts` next to it with the prop types (see
    `components/core/Badge.d.ts` for the shape).
@@ -128,16 +97,14 @@ focus ring. Toggle the theme and tab through your change before you open a PR.
 4. Add the component to its group's specimen card (`core.card.html`,
    `forms.card.html`, `surfaces.card.html`, or `data.card.html`) so it shows up
    in the overview SPA, in light and dark.
-5. Make sure it is keyboard-operable with the shared focus ring, and that state
-   is expressed with color only.
+5. Make sure it is keyboard-operable with the shared focus ring.
 
 ## Adding a guideline card
 
 Specimen cards live under `guidelines/<group>/<name>.card.html`. Each starts with
 an `@dsCard` HTML comment (`group`, `viewport`, `name`, `subtitle`) that the
 overview SPA reads to place the card, links `../../styles.css`, and renders a
-small, focused demo. Keep one idea per card and stay on-system — a guideline card
-is held to the same rules it documents.
+small, focused demo. Keep one idea per card.
 
 ## Docs are bilingual
 
@@ -150,22 +117,21 @@ switcher line:
 - 简体中文: `[English](<relative path to the en sibling>) · **简体中文**`
 
 Translate prose with the project glossary, but keep token names, file paths,
-component names, and the brand name "jojo" in their original form — never
-translate an identifier.
+component names, and the project name "jojo" in their original form. Do not
+translate identifiers.
 
 ## Commits and pull requests
 
 - Keep changes surgical. Touch copy or values, not working class names, the
   `window.JojoDesignSystem` namespace, file paths, or token names, unless that is
   the point of the change.
-- Write commit messages in sentence case, present tense, describing what changed
-  and which rule or signature it serves.
+- Write commit messages in sentence case and present tense.
 - One concern per PR. In the description, say how you verified it: which pages
   you opened, that AA holds in both themes, and that keyboard nav works.
 - Update [`CHANGELOG.md`](./CHANGELOG.md) when a change is user-facing, and keep
   the English and 简体中文 docs in sync.
-- Be specific and unhyped in any copy you add — sentence case, second person, no
-  emoji in product or marketing chrome, no exclamation marks in UI.
+- Keep copy specific. Use sentence case. Avoid emoji, slogans, superlatives, and
+  exclamation marks in UI copy.
 
 ## Code of conduct
 

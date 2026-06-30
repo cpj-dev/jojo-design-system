@@ -1,4 +1,4 @@
-<!-- @dsCard group="Geometry" viewport="700x178" name="Elevation — flat & matte" subtitle="Depth is the card ladder; the only shadow is the flyout halo" -->
+<!-- @dsCard group="Geometry" viewport="700x178" name="Elevation" subtitle="Cards use no shadow; flyouts use --shadow-flyout" -->
 <!DOCTYPE html>
 <html lang="en"><head><meta charset="UTF-8" /><link rel="stylesheet" href="../../styles.css" />
 <style>
@@ -13,7 +13,7 @@
 <body>
   <div class="row">
     <div class="col"><div class="card flat">card at rest</div><div class="nm">box-shadow: none</div></div>
-    <div class="col"><div class="card halo">flyout / popover</div><div class="nm">--shadow-flyout · matte halo</div></div>
-    <div style="font-size:12px;color:var(--fg-2);max-width:200px;line-height:1.5;">No Material elevation, no glow, no offset drop shadows. Depth comes from the warm tint ladder.</div>
+    <div class="col"><div class="card halo">flyout / popover</div><div class="nm">--shadow-flyout</div></div>
+    <div style="font-size:12px;color:var(--fg-2);max-width:200px;line-height:1.5;">Default cards use no shadow. Flyouts and popovers use the shared shadow token.</div>
   </div>
 </body></html>

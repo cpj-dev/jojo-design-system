@@ -9,8 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Initial public release of **jojo** — an original, framework-agnostic
-  "warm paper, drawn in ink" design system.
+- Initial public release of **jojo**, a design system with CSS tokens, React
+  component primitives, UI kits, and documentation.
 - **Design tokens** (`tokens/`): color (light + dark themes), typography,
   geometry, spacing, motion, resolved semantic aliases, a base reset with a
   focus ring and `prefers-reduced-motion` guard, and an opt-in Tailwind v4

@@ -1,6 +1,5 @@
-/* Marketing — pricing. SegmentedControl toggles monthly/annual (re-renders, so the
-   check glyph is inline SVG, not lucide). Pro tier uses the hard-outline card for
-   emphasis; the orange never becomes a fill. */
+/* Marketing pricing. SegmentedControl toggles monthly/annual pricing. The check
+   glyph is inline SVG because this section re-renders. */
 const { Button: PrButton, Card: PrCard, SegmentedControl: PrSegmented } = window.DS;
 const { useState: prUseState } = React;
 

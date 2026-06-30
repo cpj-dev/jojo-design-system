@@ -1,92 +1,147 @@
 **English** · [简体中文](./README.zh-CN.md)
 
-# jojo · warm paper, drawn in ink
+# jojo
 
-> Warm paper, drawn in ink.
+jojo is a design system that ships CSS tokens, React components, documentation,
+and example UI kits. The CSS layer can be used without a JavaScript framework.
+The React components are exposed on `window.JojoDesignSystem` for static pages
+and prototypes.
 
-jojo is an original, framework-agnostic design system. The whole neutral palette is one warm ink stepped into one warm paper, with a single orange accent kept for state — links, active, focus — and never for fills. It ships design tokens (CSS custom properties), accessible React primitives, full-screen UI kits, and foundation specimen cards. You link one stylesheet and read components from a global. It is named after the author's cat, jojo. It is original work, not affiliated with any company or product, and released under the MIT license.
+## What is included
 
-## Signatures
+- CSS custom properties for color, typography, spacing, radius, and motion
+- Light and dark theme values
+- 20 React components across core, forms, surfaces, and data
+- Optional Tailwind v4 token bridge
+- Documentation in English and Simplified Chinese
+- Example marketing and console layouts
+- Specimen pages for tokens, components, and visual rules
 
-- **Warm paper monochrome, one hue.** Every neutral is one warm ink stepped into one warm paper — never separate greys.
-- **Sharp 4px cards, full-pill controls.** Near-square containers; fully rounded buttons, tags, and dots.
-- **A hard ink outline beside a hairline.** A barely-there hairline for chrome; a full ink outline for emphasis. The contrast is the tell.
-- **Large, light display type.** Grotesque display at weight 400 with negative tracking. Hierarchy comes from size, not weight.
-- **Flat and matte, one accent.** No shadows or lift. The orange is link, active, and focus text only — never a fill.
+## Installation
 
-## Quick start
+Clone the repository:
 
-1. Link the single entry point first — it imports the fonts, every token, the base reset, and the component styles:
+```sh
+git clone https://github.com/perelmangao/jojo-design-system.git
+```
 
-   ```html
-   <link rel="stylesheet" href="styles.css" />
-   ```
+Or install the package:
 
-2. Reference resolved token aliases in plain CSS or JSX — never hardcode a color, radius, or rule:
+```sh
+npm install jojo-design-system
+```
 
-   ```css
-   .panel {
-     background: var(--bg-card);     /* the warm card surface  */
-     color: var(--fg-1);             /* primary ink            */
-     border: 1px solid var(--rule-ink); /* the hard ink outline */
-   }
-   .panel a { color: var(--accent-orange); } /* accent is for state only */
-   ```
+## Usage
 
-3. Read the React primitives from the global — there are 20, across core, forms, surfaces, and data:
+Link the stylesheet:
 
-   ```js
-   const { Button, Card, Input, Table } = window.JojoDesignSystem;
-   ```
+```html
+<link rel="stylesheet" href="styles.css" />
+```
 
-4. **Tailwind v4 (optional).** `tokens/tailwind-bridge.css` maps the tokens onto Tailwind utilities like `bg-card`. It is opt-in — add it to your Tailwind entry yourself; `styles.css` does not import it.
+Use token aliases in CSS:
+
+```css
+.panel {
+  background: var(--bg-card);
+  color: var(--fg-1);
+  border: 1px solid var(--rule-ink);
+}
+
+.panel a {
+  color: var(--accent-orange);
+}
+```
+
+Use components from the global namespace:
+
+```js
+const { Button, Card, Input, Table } = window.JojoDesignSystem;
+```
+
+For Tailwind v4, import the bridge in your Tailwind entry:
+
+```css
+@import "jojo-design-system/tailwind-bridge.css";
+```
+
+`styles.css` does not import the Tailwind bridge.
+
+## Design constraints
+
+The system uses a fixed set of visual rules:
+
+- Neutral colors come from one HSL scale.
+- Cards use a 4px radius.
+- Buttons, tags, avatars, and compact controls use a full radius.
+- `--hairline` is used for border lines.
+- `--rule-ink` is used for border lines with higher contrast.
+- `--accent-orange` is reserved for links, active states, and focus states.
+- Component and layout styles should use token aliases instead of hardcoded
+  color, radius, spacing, or motion values.
 
 ## Project structure
 
-```
+```txt
 jojo-design-system/
-├── styles.css      single entry — @imports fonts, tokens, base, and jojo.css
-├── tokens/         fonts, colors, semantic aliases, typography, geometry, motion, base
-├── components/     20 React primitives (core · forms · surfaces · data) + jojo.css
-├── ui_kits/        marketing (markets jojo) and console (an example product)
-├── guidelines/     specimen cards — colors, type, spacing, geometry, brand
-├── assets/         the jojo monogram (logo/) and icon notes
-├── docs/           guides in en/ and zh-CN/
-├── index.html      the overview SPA
-└── SKILL.md        use the system as an Agent Skill
+├── styles.css      CSS entry point
+├── tokens/         CSS custom properties and base styles
+├── components/     React components and component CSS
+├── ui_kits/        example page layouts
+├── guidelines/     token and component specimen pages
+├── assets/         logo files and asset notes
+├── docs/           English and Simplified Chinese documentation
+├── index.html      overview page
+└── SKILL.md        instructions for coding agents
 ```
 
 ## Documentation
 
-English guides live in [`docs/en/`](./docs/en/):
+English:
 
-- [Getting started](./docs/en/getting-started.md) — link the stylesheet, read the global, ship your first screen.
-- [Design language](./docs/en/design-language.md) — the five signatures, the dual-border rule, and the anti-box layout.
-- [Design tokens](./docs/en/design-tokens.md) — the raw HSL ladder and the resolved aliases you actually use.
-- [Components](./docs/en/components.md) — the 20 primitives and their props.
+- [Getting started](./docs/en/getting-started.md)
+- [Design language](./docs/en/design-language.md)
+- [Design tokens](./docs/en/design-tokens.md)
+- [Components](./docs/en/components.md)
 
-Simplified Chinese mirrors live in [`docs/zh-CN/`](./docs/zh-CN/).
+Simplified Chinese:
 
-## Demos
+- [快速开始](./docs/zh-CN/getting-started.md)
+- [设计语言](./docs/zh-CN/design-language.md)
+- [设计令牌](./docs/zh-CN/design-tokens.md)
+- [组件](./docs/zh-CN/components.md)
 
-- **Overview SPA** — open [`index.html`](./index.html) to browse tokens, components, and specimen cards.
-- **Marketing kit** — [`ui_kits/marketing/`](./ui_kits/marketing/) markets jojo itself, composed from the system.
-- **Console kit** — [`ui_kits/console/`](./ui_kits/console/) is a generic example product built with jojo.
+## Examples
 
-Serve the folder over HTTP (for example `npx serve .`) so the modules load.
+Serve the repository root over HTTP:
 
-## Fonts & icons
+```sh
+npx serve .
+```
 
-Three open-source families load from Google Fonts via `tokens/fonts.css`: **Geist** (grotesque sans and display), **Geist Mono** (all code and literal input), and **EB Garamond** (serif lead copy). Icons are **[Lucide](https://lucide.dev)** via CDN — thin monoline strokes that inherit `currentColor`.
+Then open:
+
+- [`index.html`](./index.html)
+- [`ui_kits/marketing/`](./ui_kits/marketing/)
+- [`ui_kits/console/`](./ui_kits/console/)
+
+## Fonts and icons
+
+Fonts are loaded from Google Fonts in [`tokens/fonts.css`](./tokens/fonts.css):
+
+- Geist
+- Geist Mono
+- EB Garamond
+
+Icons use [Lucide](https://lucide.dev) from a CDN.
 
 ## Contributing
 
-Issues and pull requests are welcome. Keep changes on-voice — concrete, unhyped, sentence case — and within the five signatures: reference resolved tokens, hold the dual-border and anti-box rules, and verify WCAG AA and keyboard nav in both themes. By taking part you agree to the [Code of Conduct](./CODE_OF_CONDUCT.md). Notable changes are recorded in the [changelog](./CHANGELOG.md).
+Issues and pull requests are welcome. Before opening a pull request, read
+[`CONTRIBUTING.md`](./CONTRIBUTING.md). Participation is covered by the
+[`Code of Conduct`](./CODE_OF_CONDUCT.md). Release notes are recorded in
+[`CHANGELOG.md`](./CHANGELOG.md).
 
 ## License
 
 [MIT](./LICENSE) © 2026 perelmangao.
-
-## Naming
-
-jojo is named after the author's cat, jojo — lowercase, like the wordmark. The mark is a lowercase-"j" monogram in [`assets/logo/`](./assets/logo/).

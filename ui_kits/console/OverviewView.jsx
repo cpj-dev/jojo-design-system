@@ -1,5 +1,4 @@
-/* Console — Overview. Metric tiles grouped by GRID GAP (tint fill, no per-tile
-   border — anti-box), then a recent-activity list as divide-y rows (no row boxes). */
+/* Console overview with metric tiles and a recent-activity list. */
 const { Badge: OvBadge, Button: OvButton } = window.DS;
 
 const METRICS = [

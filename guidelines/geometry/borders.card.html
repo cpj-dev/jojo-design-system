@@ -1,4 +1,4 @@
-<!-- @dsCard group="Geometry" viewport="700x176" name="Dual border system" subtitle="A barely-there hairline beside the hard near-black ink outline" -->
+<!-- @dsCard group="Geometry" viewport="700x176" name="Border tokens" subtitle="Standard and higher-contrast 1px borders" -->
 <!DOCTYPE html>
 <html lang="en"><head><meta charset="UTF-8" /><link rel="stylesheet" href="../../styles.css" />
 <style>
@@ -12,15 +12,15 @@
 <body>
   <div class="row">
     <div class="card" style="border: 1px solid var(--hairline);">
-      <div class="title">Hairline</div>
-      <div class="sub">Dividers, table rows, tabs, inputs, ghost edges, utility chrome.</div>
+      <div class="title">Standard border</div>
+      <div class="sub">Dividers, table rows, tabs, inputs, and utility edges.</div>
       <div class="nm">1px · --hairline</div>
     </div>
     <div class="card" style="background: var(--bg-app); border: 1px solid var(--rule-ink);">
-      <div class="title">Hard ink outline</div>
-      <div class="sub">The signature — framed / emphasis / selected cards &amp; CTA edges.</div>
+      <div class="title">Higher-contrast border</div>
+      <div class="sub">Framed, selected, or higher-emphasis surfaces.</div>
       <div class="nm">1px · --rule-ink</div>
     </div>
   </div>
-  <div style="font-size:11.5px;color:var(--fg-2);margin-top:14px;">All borders are 1px — never thicker. No colored side-stripe borders.</div>
+  <div style="font-size:11.5px;color:var(--fg-2);margin-top:14px;">All standard borders are 1px. Use color tokens instead of ad hoc border colors.</div>
 </body></html>

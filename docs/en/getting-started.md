@@ -2,7 +2,10 @@
 
 # Getting started
 
-jojo is an original, framework-agnostic design system — warm paper, drawn in ink. It ships as plain files: one CSS entry point, a set of design tokens, and 20 React component primitives. There is no build step and no runtime dependency. You link one stylesheet, reference resolved tokens, and optionally consume the primitives from a global namespace.
+jojo is a design system that ships as plain files: one CSS entry point, a set of
+design tokens, and 20 React component primitives. There is no build step and no
+runtime dependency for the CSS layer. Link one stylesheet, reference resolved
+tokens, and optionally consume the primitives from a global namespace.
 
 This page covers getting the files, linking the stylesheet, using tokens in plain CSS or JSX, the optional Tailwind v4 bridge, consuming the React primitives, and opening the demos.
 
@@ -44,13 +47,15 @@ That one link is the whole stylesheet. The three type families — **Geist** (sa
 
 ## Reference resolved tokens
 
-Style your own markup by reading the resolved semantic tokens — never hardcode a color, radius, or hairline. The aliases resolve to the right value automatically in light and dark (dark is the `.dark` class on the root). A few you will reach for often:
+Style your own markup by reading the resolved semantic tokens. The aliases
+resolve to the right value automatically in light and dark (dark is the `.dark`
+class on the root). A few you will reach for often:
 
-- `--bg-app` — the page background (warm paper)
-- `--bg-card` — a raised surface
-- `--fg-1` — primary ink; `--fg-2` — secondary ink
-- `--accent-orange` — the one accent, for state only (links, active, focus) — never a fill
-- `--rule-ink` — the hard ink outline; `--hairline` — the barely-there chrome line
+- `--bg-app` — the page background
+- `--bg-card` — a surface background
+- `--fg-1` — primary text; `--fg-2` — secondary text
+- `--accent-orange` — links, active states, and focus states
+- `--rule-ink` — higher-contrast border; `--hairline` — standard border
 
 In plain CSS:
 
@@ -102,7 +107,9 @@ function SignInCard() {
 }
 ```
 
-Each primitive ships a `.d.ts` for types and a `.prompt.md` describing its intent, both alongside the component in [`components/`](../../components/). The primitives already speak the system — variants map to ink, hairline, and the hard outline — so you do not restyle them.
+Each primitive ships a `.d.ts` for types and a `.prompt.md` describing its
+intended use, both alongside the component in [`components/`](../../components/).
+Variants map to the shared token aliases.
 
 ## Open the demos
 
@@ -114,15 +121,15 @@ npx serve .
 
 Then open:
 
-- [`index.html`](../../index.html) — the overview SPA: tokens, type specimens, and the five signatures.
-- [`ui_kits/marketing/`](../../ui_kits/marketing/) — a marketing site that markets jojo itself, composed from the primitives, with a light/dark toggle.
+- [`index.html`](../../index.html) — the overview SPA: tokens, type specimens, and component examples.
+- [`ui_kits/marketing/`](../../ui_kits/marketing/) — a marketing page composed from the primitives, with a light/dark toggle.
 - [`ui_kits/console/`](../../ui_kits/console/) — an example product surface built with jojo.
 
 ## Next
 
-- Read [the design language](./design-language.md) for the five signatures and the rules behind them.
+- Read [the design language](./design-language.md) for the project constraints.
 - Browse the primitives and specimen cards in [`components/`](../../components/) and the project [`README.md`](../../README.md).
 
 ---
 
-jojo is named after the author's cat, jojo. It is original and unaffiliated — © 2026 perelmangao, MIT-licensed.
+© 2026 perelmangao, MIT-licensed.

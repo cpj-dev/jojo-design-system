@@ -1,5 +1,4 @@
-/* Marketing — closing CTA band + footer. Footer sits on the page paper, separated
-   by a single top hairline (not a different fill). Links are ink, hover → muted. */
+/* Marketing closing CTA band and footer. */
 const { Button: FtButton } = window.DS;
 
 const FOOTER_COLS = [
@@ -13,7 +12,7 @@ function Footer() {
     <footer className="mk-footer">
       <div className="mk-shell">
         <div className="mk-cta">
-          <h2 className="mk-cta__title">Build calm, legible interfaces.</h2>
+          <h2 className="mk-cta__title">Start with tokens and components.</h2>
           <div className="mk-cta__actions">
             <FtButton variant="primary" size="lg">Get started</FtButton>
             <FtButton variant="tertiary">Read the docs</FtButton>
@@ -28,7 +27,7 @@ function Footer() {
               </svg>
               <span>jojo</span>
             </a>
-            <p className="mk-footer__tag">Warm paper, drawn in ink.</p>
+            <p className="mk-footer__tag">MIT-licensed design system.</p>
           </div>
 
           {FOOTER_COLS.map((col) => (
