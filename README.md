@@ -73,9 +73,9 @@ The system uses a fixed set of visual rules:
 
 - Neutral colors come from one HSL scale.
 - Cards use a 4px radius.
-- Buttons, tags, avatars, and small controls use a full radius.
-- `--hairline` is used for low-emphasis borders.
-- `--rule-ink` is used for emphasis borders.
+- Buttons, tags, avatars, and compact controls use a full radius.
+- `--hairline` is used for border lines.
+- `--rule-ink` is used for border lines with higher contrast.
 - `--accent-orange` is reserved for links, active states, and focus states.
 - Component and layout styles should use token aliases instead of hardcoded
   color, radius, spacing, or motion values.
