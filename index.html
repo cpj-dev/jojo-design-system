@@ -59,7 +59,7 @@
   .ov-type__serif { font-family: var(--font-serif); font-size: 20px; line-height: 1.45; }
 
   /* explore */
-  .ov-kits { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 32px; }
+  .ov-kits { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 32px; }
   .ov-kit { display: block; background: var(--bg-card); border: 1px solid var(--rule-ink); border-radius: var(--radius); padding: 24px; color: inherit; transition: none; }
   .ov-kit:hover { background: var(--bg-1); }
   .ov-kit__t { font-size: 18px; font-weight: 500; letter-spacing: -0.01em; }
@@ -76,8 +76,12 @@
   @media (max-width: 860px) {
     .ov-sigs { grid-template-columns: repeat(2, 1fr); }
     .ov-pal-anchor { grid-template-columns: 1fr; }
-    .ov-kits { grid-template-columns: 1fr; }
+    .ov-kits { grid-template-columns: 1fr 1fr; }
     .ov-top__hint { display: none; }
+  }
+
+  @media (max-width: 560px) {
+    .ov-kits { grid-template-columns: 1fr; }
   }
 </style>
 </head>
@@ -174,6 +178,11 @@
             <div class="ov-kit__t">Console dashboard</div>
             <div class="ov-kit__d">App shell, sidebar, deployments table, filter toolbar, row flyout, and settings view.</div>
             <span class="ov-kit__go">Open the console kit →</span>
+          </a>
+          <a class="ov-kit" href="ui_kits/coffee-ticket/index.html">
+            <div class="ov-kit__t">Coffee ticket</div>
+            <div class="ov-kit__d">Interactive vintage brew ticket — swap origins, tap brew params, drag-to-stamp, scrub a score.</div>
+            <span class="ov-kit__go">Open the coffee ticket →</span>
           </a>
         </div>
         <p class="ov-explore-note">

@@ -1,0 +1,1472 @@
+<!-- @dsCard group="Playground" viewport="390x844" name="Coffee ticket" subtitle="Interactive vintage brew ticket — pick beans, tune parameters, stamp & score" -->
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <title>Brew Ticket — Interactive</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Oswald:wght@500;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --ticket-blue: #bfe3eb;
+      --ticket-blue-dark: #9acdd9;
+      --ticket-orange: #e09873;
+      --ticket-orange-deep: #c97a55;
+      --ticket-text: #2c2c2c;
+      --ticket-red: #c94e50;
+      --paper: #ebe4d6;
+      --paper-deep: #d9cfbc;
+      --ink-soft: rgba(44, 44, 44, 0.55);
+      --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+      --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      min-height: 100%;
+    }
+
+    body {
+      font-family: "Courier Prime", monospace;
+      color: var(--ticket-text);
+      background:
+        radial-gradient(ellipse 80% 50% at 20% 10%, rgba(191, 227, 235, 0.45), transparent 55%),
+        radial-gradient(ellipse 70% 45% at 90% 80%, rgba(224, 152, 115, 0.35), transparent 50%),
+        linear-gradient(165deg, #f3ecdf 0%, var(--paper) 45%, var(--paper-deep) 100%);
+      overflow-x: hidden;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.35;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+      mix-blend-mode: multiply;
+      z-index: 0;
+    }
+
+    .stage {
+      position: relative;
+      z-index: 1;
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 28px 16px 40px;
+      gap: 18px;
+    }
+
+    .brand-bar {
+      width: min(400px, 100%);
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      animation: rise-in 0.7s var(--ease-out) both;
+    }
+
+    .brand-bar h1 {
+      margin: 0;
+      font-family: "Abril Fatface", cursive;
+      font-size: clamp(1.6rem, 6vw, 2rem);
+      letter-spacing: 0.04em;
+      line-height: 1;
+    }
+
+    .brand-bar p {
+      margin: 0;
+      font-size: 0.65rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      opacity: 0.65;
+      font-weight: 700;
+    }
+
+    .hint {
+      width: min(400px, 100%);
+      font-size: 0.72rem;
+      letter-spacing: 0.04em;
+      color: var(--ink-soft);
+      text-align: center;
+      min-height: 1.2em;
+      transition: opacity 0.25s ease;
+      animation: rise-in 0.7s var(--ease-out) 0.08s both;
+    }
+
+    .ticket-stack {
+      width: min(400px, 100%);
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      perspective: 900px;
+    }
+
+    /* —— Brew ticket —— */
+    .brew-ticket {
+      position: relative;
+      background-color: var(--ticket-blue);
+      color: var(--ticket-text);
+      filter: drop-shadow(5px 6px 0 rgba(0, 0, 0, 0.12));
+      background-image:
+        radial-gradient(circle at 0 10px, transparent 8px, var(--ticket-blue) 9px),
+        radial-gradient(circle at 100% 10px, transparent 8px, var(--ticket-blue) 9px);
+      background-size: 100% 20px;
+      background-position: 0 5px;
+      background-repeat: repeat-y;
+      padding: 15px 5px;
+      transform-origin: center top;
+      animation: ticket-drop 0.85s var(--ease-spring) 0.15s both;
+      transition: transform 0.35s var(--ease-spring), filter 0.35s ease;
+      cursor: grab;
+      touch-action: none;
+    }
+
+    .brew-ticket:active { cursor: grabbing; }
+
+    .brew-ticket.is-tilting {
+      transition: transform 0.08s linear;
+    }
+
+    .brew-ticket.is-printing {
+      animation: print-out 0.55s var(--ease-out) forwards;
+    }
+
+    .brew-ticket.is-torn .ticket-stub {
+      transform: translateX(-120%) rotate(-12deg);
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .ticket-inner {
+      border: 2px solid var(--ticket-text);
+      border-radius: 4px;
+      display: flex;
+      width: 100%;
+      background: var(--ticket-blue);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .ticket-stub {
+      width: 52px;
+      border-right: 2px dashed var(--ticket-text);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 12px 0;
+      gap: 10px;
+      cursor: grab;
+      transition: transform 0.55s var(--ease-spring), opacity 0.4s ease;
+      touch-action: none;
+      position: relative;
+      z-index: 2;
+    }
+
+    .ticket-stub::after {
+      content: "撕";
+      position: absolute;
+      bottom: 8px;
+      font-size: 0.55rem;
+      letter-spacing: 0.2em;
+      opacity: 0.35;
+      writing-mode: vertical-rl;
+      transform: rotate(180deg);
+    }
+
+    .vertical-text {
+      writing-mode: vertical-rl;
+      transform: rotate(180deg);
+      font-family: "Oswald", sans-serif;
+      font-size: 1.15rem;
+      letter-spacing: 2px;
+      font-weight: 700;
+    }
+
+    .stub-name {
+      font-size: 0.75rem !important;
+      letter-spacing: 1px !important;
+      opacity: 0.8;
+    }
+
+    .ticket-main {
+      flex: 1;
+      padding: 14px 14px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .header-section {
+      text-align: center;
+      border-bottom: 2px solid var(--ticket-text);
+      padding-bottom: 8px;
+      position: relative;
+    }
+
+    .origin-nav {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .nav-btn {
+      width: 28px;
+      height: 28px;
+      border: 2px solid var(--ticket-text);
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.35);
+      color: var(--ticket-text);
+      font-family: "Oswald", sans-serif;
+      font-size: 0.9rem;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      transition: transform 0.2s var(--ease-spring), background 0.2s ease;
+      flex-shrink: 0;
+    }
+
+    .nav-btn:hover { background: rgba(255, 255, 255, 0.65); }
+    .nav-btn:active { transform: scale(0.88); }
+
+    .brand-name {
+      font-family: "Abril Fatface", cursive;
+      font-size: clamp(1.55rem, 7vw, 2rem);
+      text-transform: uppercase;
+      line-height: 1;
+      margin: 0;
+      letter-spacing: 1px;
+      transition: transform 0.35s var(--ease-spring), opacity 0.25s ease;
+    }
+
+    .brand-name.is-swap {
+      animation: name-swap 0.4s var(--ease-spring);
+    }
+
+    .sub-title {
+      font-size: 0.68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2.5px;
+      margin-top: 6px;
+      min-height: 1em;
+    }
+
+    .brew-details {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      font-size: 0.8rem;
+    }
+
+    .detail-item {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      padding: 6px 7px;
+      border-radius: 3px;
+      border: 1.5px solid transparent;
+      cursor: pointer;
+      transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s var(--ease-spring);
+      position: relative;
+    }
+
+    .detail-item:hover,
+    .detail-item:focus-visible {
+      background: rgba(255, 255, 255, 0.35);
+      border-color: rgba(44, 44, 44, 0.25);
+      outline: none;
+    }
+
+    .detail-item:active { transform: scale(0.97); }
+
+    .detail-item.is-pulse {
+      animation: param-pulse 0.45s var(--ease-spring);
+    }
+
+    .detail-item .tap-hint {
+      position: absolute;
+      top: 4px;
+      right: 5px;
+      font-size: 0.5rem;
+      letter-spacing: 0.08em;
+      opacity: 0.4;
+      text-transform: uppercase;
+    }
+
+    .label {
+      font-size: 0.58rem;
+      text-transform: uppercase;
+      font-weight: 700;
+      opacity: 0.7;
+      letter-spacing: 0.06em;
+    }
+
+    .value {
+      font-weight: 700;
+      font-size: 0.86rem;
+      line-height: 1.2;
+    }
+
+    .dash {
+      border: none;
+      border-top: 1px dashed #2c2c2c;
+      margin: 4px 0;
+    }
+
+    .flavor-block .label { margin-bottom: 4px; display: block; }
+
+    .flavor-notes {
+      font-size: 0.82rem;
+      line-height: 1.45;
+      text-align: center;
+      font-style: italic;
+      background: rgba(255, 255, 255, 0.3);
+      padding: 8px 10px;
+      border-radius: 2px;
+      min-height: 3.2em;
+      cursor: pointer;
+      transition: background 0.2s ease, transform 0.25s var(--ease-spring);
+      position: relative;
+    }
+
+    .flavor-notes:hover { background: rgba(255, 255, 255, 0.48); }
+    .flavor-notes:active { transform: scale(0.985); }
+
+    .flavor-notes .cursor-blink {
+      display: inline-block;
+      width: 0.45em;
+      border-right: 2px solid var(--ticket-text);
+      animation: blink 0.8s step-end infinite;
+      margin-left: 1px;
+      vertical-align: baseline;
+      height: 0.9em;
+    }
+
+    /* Stamp overlay on ticket */
+    .stamp {
+      position: absolute;
+      border: 3px solid var(--ticket-red);
+      color: var(--ticket-red);
+      padding: 5px 10px;
+      font-family: "Courier Prime", monospace;
+      font-weight: 700;
+      font-size: 1.15rem;
+      text-transform: uppercase;
+      opacity: 0;
+      mix-blend-mode: multiply;
+      pointer-events: none;
+      border-radius: 4px;
+      transform: translate(-50%, -50%) rotate(-18deg) scale(1.4);
+      letter-spacing: 0.06em;
+      z-index: 5;
+    }
+
+    .stamp.is-stamped {
+      animation: stamp-thud 0.45s var(--ease-spring) forwards;
+    }
+
+    .stamp-smear {
+      position: absolute;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(201, 78, 80, 0.35), transparent 70%);
+      pointer-events: none;
+      opacity: 0;
+      z-index: 4;
+    }
+
+    .stamp-smear.is-show {
+      animation: smear-fade 1.2s ease forwards;
+    }
+
+    /* —— Score ticket —— */
+    .score-ticket {
+      background-color: var(--ticket-orange);
+      color: var(--ticket-text);
+      position: relative;
+      filter: drop-shadow(5px 6px 0 rgba(0, 0, 0, 0.12));
+      display: flex;
+      mask-image:
+        radial-gradient(circle at 0 50%, transparent 15px, black 16px),
+        radial-gradient(circle at 100% 50%, transparent 15px, black 16px);
+      -webkit-mask-image:
+        radial-gradient(circle at 0 50%, transparent 15px, black 16px),
+        radial-gradient(circle at 100% 50%, transparent 15px, black 16px);
+      animation: ticket-drop 0.85s var(--ease-spring) 0.32s both;
+      cursor: ew-resize;
+      touch-action: none;
+      transition: transform 0.3s var(--ease-spring);
+    }
+
+    .score-ticket.is-dragging {
+      transform: scale(1.02);
+    }
+
+    .score-ticket.is-celebrate {
+      animation: celebrate-wiggle 0.55s var(--ease-spring);
+    }
+
+    .score-content {
+      border: 2px solid var(--ticket-text);
+      margin: 5px;
+      padding: 14px 16px;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-radius: 4px;
+      gap: 12px;
+    }
+
+    .score-left h3 {
+      margin: 0;
+      font-family: "Oswald", sans-serif;
+      text-transform: uppercase;
+      font-size: 1rem;
+      line-height: 1.15;
+    }
+
+    .score-left span {
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      opacity: 0.75;
+    }
+
+    .score-right {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .score-big {
+      font-family: "Abril Fatface", cursive;
+      font-size: 3.4rem;
+      line-height: 0.8;
+      tabular-nums: true;
+      font-variant-numeric: tabular-nums;
+      transition: transform 0.2s var(--ease-spring), color 0.2s ease;
+      min-width: 1.6em;
+      text-align: right;
+    }
+
+    .score-big.is-tick {
+      animation: score-tick 0.22s var(--ease-spring);
+    }
+
+    .points-label {
+      font-family: "Oswald", sans-serif;
+      font-size: 1.35rem;
+      font-weight: 700;
+    }
+
+    .score-meter {
+      position: absolute;
+      left: 20px;
+      right: 20px;
+      bottom: 10px;
+      height: 3px;
+      background: rgba(44, 44, 44, 0.15);
+      border-radius: 2px;
+      overflow: hidden;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+      pointer-events: none;
+    }
+
+    .score-ticket.is-dragging .score-meter,
+    .score-ticket:hover .score-meter {
+      opacity: 1;
+    }
+
+    .score-meter > i {
+      display: block;
+      height: 100%;
+      width: 90%;
+      background: var(--ticket-text);
+      border-radius: 2px;
+      transition: width 0.08s linear;
+    }
+
+    /* —— Controls —— */
+    .controls {
+      width: min(400px, 100%);
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 10px;
+      animation: rise-in 0.7s var(--ease-out) 0.4s both;
+    }
+
+    .ctrl-btn {
+      appearance: none;
+      border: 2px solid var(--ticket-text);
+      background: rgba(255, 255, 255, 0.55);
+      color: var(--ticket-text);
+      font-family: "Oswald", sans-serif;
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 12px 8px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: transform 0.2s var(--ease-spring), background 0.2s ease, box-shadow 0.2s ease;
+      box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.08);
+    }
+
+    .ctrl-btn:hover {
+      background: rgba(255, 255, 255, 0.85);
+      transform: translateY(-1px);
+    }
+
+    .ctrl-btn:active {
+      transform: translate(2px, 2px);
+      box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.08);
+    }
+
+    .ctrl-btn--accent {
+      background: var(--ticket-blue);
+    }
+
+    .ctrl-btn--warm {
+      background: var(--ticket-orange);
+    }
+
+    .ctrl-btn--ink {
+      background: var(--ticket-text);
+      color: var(--paper);
+    }
+
+    /* Floating stamp tool */
+    .stamp-tool {
+      position: fixed;
+      z-index: 50;
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      border: 3px solid var(--ticket-red);
+      background: rgba(255, 245, 245, 0.92);
+      color: var(--ticket-red);
+      font-family: "Oswald", sans-serif;
+      font-weight: 700;
+      font-size: 0.7rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      line-height: 1.15;
+      padding: 8px;
+      cursor: grab;
+      box-shadow: 4px 6px 0 rgba(201, 78, 80, 0.25);
+      touch-action: none;
+      transition: transform 0.2s var(--ease-spring), box-shadow 0.2s ease;
+      bottom: 28px;
+      right: 20px;
+      animation: rise-in 0.7s var(--ease-out) 0.5s both;
+    }
+
+    .stamp-tool:active,
+    .stamp-tool.is-dragging {
+      cursor: grabbing;
+      transform: scale(1.08) rotate(-8deg);
+      box-shadow: 6px 10px 0 rgba(201, 78, 80, 0.3);
+    }
+
+    .stamp-tool.is-armed {
+      animation: stamp-ready 0.9s ease infinite;
+    }
+
+    /* Steam */
+    .steam {
+      position: absolute;
+      top: -18px;
+      left: 50%;
+      width: 40px;
+      height: 40px;
+      pointer-events: none;
+      opacity: 0;
+      z-index: 3;
+    }
+
+    .steam.is-on { opacity: 1; }
+
+    .steam span {
+      position: absolute;
+      bottom: 0;
+      width: 6px;
+      height: 18px;
+      border-radius: 99px;
+      background: rgba(255, 255, 255, 0.55);
+      filter: blur(2px);
+      animation: steam-rise 2.2s ease-in-out infinite;
+    }
+
+    .steam span:nth-child(1) { left: 8px; animation-delay: 0s; }
+    .steam span:nth-child(2) { left: 18px; height: 22px; animation-delay: 0.4s; }
+    .steam span:nth-child(3) { left: 28px; animation-delay: 0.8s; }
+
+    /* Confetti bits */
+    .burst {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 60;
+      overflow: hidden;
+    }
+
+    .burst i {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      border-radius: 1px;
+      animation: confetti 0.9s var(--ease-out) forwards;
+    }
+
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 110px;
+      transform: translateX(-50%) translateY(12px);
+      background: var(--ticket-text);
+      color: var(--paper);
+      font-family: "Oswald", sans-serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 10px 16px;
+      border-radius: 4px;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 70;
+      transition: opacity 0.25s ease, transform 0.3s var(--ease-spring);
+      white-space: nowrap;
+    }
+
+    .toast.is-show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .dots {
+      display: flex;
+      gap: 6px;
+      justify-content: center;
+      margin-top: 2px;
+    }
+
+    .dots button {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      border: 1.5px solid var(--ticket-text);
+      background: transparent;
+      padding: 0;
+      cursor: pointer;
+      transition: background 0.2s ease, transform 0.2s var(--ease-spring);
+    }
+
+    .dots button.is-on {
+      background: var(--ticket-text);
+      transform: scale(1.2);
+    }
+
+    @keyframes rise-in {
+      from { opacity: 0; transform: translateY(14px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes ticket-drop {
+      from { opacity: 0; transform: translateY(-40px) rotate(-2deg) scale(0.96); }
+      to { opacity: 1; transform: translateY(0) rotate(0) scale(1); }
+    }
+
+    @keyframes name-swap {
+      0% { transform: translateY(8px); opacity: 0; }
+      100% { transform: translateY(0); opacity: 1; }
+    }
+
+    @keyframes param-pulse {
+      0% { transform: scale(1); background: rgba(255, 255, 255, 0.15); }
+      40% { transform: scale(1.04); background: rgba(255, 255, 255, 0.55); }
+      100% { transform: scale(1); }
+    }
+
+    @keyframes stamp-thud {
+      0% { opacity: 0; transform: translate(-50%, -50%) rotate(-18deg) scale(1.55); }
+      55% { opacity: 0.9; transform: translate(-50%, -50%) rotate(-18deg) scale(0.92); }
+      75% { transform: translate(-50%, -50%) rotate(-18deg) scale(1.04); }
+      100% { opacity: 0.85; transform: translate(-50%, -50%) rotate(-18deg) scale(1); }
+    }
+
+    @keyframes smear-fade {
+      0% { opacity: 0.7; transform: scale(0.6); }
+      100% { opacity: 0; transform: scale(1.8); }
+    }
+
+    @keyframes score-tick {
+      0% { transform: scale(1); }
+      40% { transform: scale(1.12); }
+      100% { transform: scale(1); }
+    }
+
+    @keyframes celebrate-wiggle {
+      0%, 100% { transform: rotate(0); }
+      25% { transform: rotate(-2deg) scale(1.02); }
+      75% { transform: rotate(2deg) scale(1.02); }
+    }
+
+    @keyframes blink {
+      50% { border-color: transparent; }
+    }
+
+    @keyframes steam-rise {
+      0% { transform: translateY(0) scaleX(1); opacity: 0; }
+      20% { opacity: 0.7; }
+      100% { transform: translateY(-36px) scaleX(1.6); opacity: 0; }
+    }
+
+    @keyframes stamp-ready {
+      0%, 100% { box-shadow: 4px 6px 0 rgba(201, 78, 80, 0.25); }
+      50% { box-shadow: 4px 6px 0 rgba(201, 78, 80, 0.45), 0 0 0 6px rgba(201, 78, 80, 0.12); }
+    }
+
+    @keyframes confetti {
+      0% { transform: translate(0, 0) rotate(0); opacity: 1; }
+      100% { transform: translate(var(--dx), var(--dy)) rotate(var(--rot)); opacity: 0; }
+    }
+
+    @keyframes print-out {
+      0% { transform: translateY(0); opacity: 1; filter: drop-shadow(5px 6px 0 rgba(0,0,0,0.12)); }
+      100% { transform: translateY(80px) scale(0.92); opacity: 0; filter: drop-shadow(0 0 0 transparent); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+
+    @media (max-width: 420px) {
+      .stamp-tool { bottom: 18px; right: 14px; width: 64px; height: 64px; font-size: 0.62rem; }
+      .controls { grid-template-columns: 1fr 1fr; }
+      .ctrl-btn--ink { grid-column: 1 / -1; }
+    }
+  </style>
+</head>
+<body>
+  <div class="stage">
+    <header class="brand-bar">
+      <h1>BREW TICKET</h1>
+      <p>No. <span id="ticketNo">20260728</span></p>
+    </header>
+
+    <p class="hint" id="hint">点参数切换 · 拖动评分 · 把印章盖到票上</p>
+
+    <div class="ticket-stack">
+      <article class="brew-ticket" id="brewTicket" aria-label="冲煮记录票据">
+        <div class="steam" id="steam" aria-hidden="true"><span></span><span></span><span></span></div>
+        <div class="ticket-inner">
+          <div class="ticket-stub" id="stub" title="向左拖动撕下存根" aria-label="撕下存根">
+            <span class="vertical-text" id="stubNo">NO. 20260728</span>
+            <span class="vertical-text stub-name" id="stubName">ROGERS</span>
+          </div>
+
+          <div class="ticket-main">
+            <div class="header-section">
+              <div class="origin-nav">
+                <button type="button" class="nav-btn" id="prevOrigin" aria-label="上一支豆子">‹</button>
+                <h2 class="brand-name" id="originName">Ethiopia</h2>
+                <button type="button" class="nav-btn" id="nextOrigin" aria-label="下一支豆子">›</button>
+              </div>
+              <div class="sub-title" id="originMeta">Yirgacheffe · Washed</div>
+              <div class="dots" id="originDots" role="tablist" aria-label="咖啡豆列表"></div>
+            </div>
+
+            <div class="brew-details">
+              <div class="detail-item" data-param="method" tabindex="0" role="button" aria-label="切换冲煮方式">
+                <span class="tap-hint">tap</span>
+                <span class="label">Method</span>
+                <span class="value" id="valMethod">Hario V60</span>
+              </div>
+              <div class="detail-item" data-param="grind" tabindex="0" role="button" aria-label="切换研磨度">
+                <span class="tap-hint">tap</span>
+                <span class="label">Grind</span>
+                <span class="value" id="valGrind">Medium-Fine</span>
+              </div>
+              <div class="detail-item" data-param="ratio" tabindex="0" role="button" aria-label="切换粉水比">
+                <span class="tap-hint">tap</span>
+                <span class="label">Ratio</span>
+                <span class="value" id="valRatio">1:15 (20g/300ml)</span>
+              </div>
+              <div class="detail-item" data-param="temp" tabindex="0" role="button" aria-label="切换水温">
+                <span class="tap-hint">tap</span>
+                <span class="label">Temp</span>
+                <span class="value" id="valTemp">93°C / 199°F</span>
+              </div>
+            </div>
+
+            <hr class="dash" />
+
+            <div class="flavor-block">
+              <span class="label">Tasting Notes · 点一下换一换</span>
+              <div class="flavor-notes" id="flavorNotes" role="button" tabindex="0" aria-label="切换风味描述">
+                <span id="flavorText"></span><span class="cursor-blink" id="flavorCursor" hidden></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="stamp" id="ticketStamp">Good!</div>
+          <div class="stamp-smear" id="stampSmear"></div>
+        </div>
+      </article>
+
+      <article class="score-ticket" id="scoreTicket" aria-label="拖动调整冲煮评分" title="左右拖动调整分数">
+        <div class="score-content">
+          <div class="score-left">
+            <h3>Brewing<br />Score</h3>
+            <span id="scoreCaption">GOOD FOR ONE CUP</span>
+          </div>
+          <div class="score-right">
+            <div class="score-big" id="scoreBig">9.0</div>
+            <div class="points-label">Points</div>
+          </div>
+        </div>
+        <div class="score-meter" aria-hidden="true"><i id="scoreFill"></i></div>
+      </article>
+    </div>
+
+    <div class="controls">
+      <button type="button" class="ctrl-btn ctrl-btn--accent" id="btnShuffle">换豆</button>
+      <button type="button" class="ctrl-btn ctrl-btn--warm" id="btnSteam">热气</button>
+      <button type="button" class="ctrl-btn ctrl-btn--ink" id="btnReprint">重新出票</button>
+    </div>
+  </div>
+
+  <button type="button" class="stamp-tool is-armed" id="stampTool" aria-label="拖动印章盖到票据上">拖我<br />盖章</button>
+  <div class="toast" id="toast" role="status"></div>
+  <div class="burst" id="burst" aria-hidden="true"></div>
+
+  <script>
+    (function () {
+      const COFFEES = [
+        {
+          name: "Ethiopia",
+          meta: "Yirgacheffe · Washed",
+          stub: "ROGERS",
+          notes: [
+            "Jasmine floral aroma, bright lemon acidity, tea-like body.",
+            "Bergamot & peach, silky finish, whisper of honey.",
+            "White florals, citrus zest, clean and sparkling."
+          ],
+          defaults: { method: 0, grind: 1, ratio: 1, temp: 2 },
+          stamp: "Good!",
+          score: 9.0
+        },
+        {
+          name: "Colombia",
+          meta: "Huila · Washed",
+          stub: "ANDES",
+          notes: [
+            "Caramel sweetness, red apple, cocoa nib finish.",
+            "Brown sugar, soft citrus, rounded medium body.",
+            "Toffee & cherry, calm acidity, chocolatey echo."
+          ],
+          defaults: { method: 1, grind: 2, ratio: 0, temp: 1 },
+          stamp: "Smooth",
+          score: 8.4
+        },
+        {
+          name: "Kenya",
+          meta: "Nyeri · Washed",
+          stub: "SAVANNA",
+          notes: [
+            "Blackcurrant punch, tomato leaf, juicy acidity.",
+            "Grapefruit & hibiscus, vivid and mouthwatering.",
+            "Berry jam, winey depth, electric finish."
+          ],
+          defaults: { method: 0, grind: 0, ratio: 2, temp: 3 },
+          stamp: "Bold!",
+          score: 9.4
+        },
+        {
+          name: "Guatemala",
+          meta: "Antigua · Washed",
+          stub: "VOLCANO",
+          notes: [
+            "Dark chocolate, orange peel, gentle smoke.",
+            "Walnut & dried fig, warm spice undertone.",
+            "Cocoa, cane sugar, soft volcanic earth."
+          ],
+          defaults: { method: 2, grind: 2, ratio: 0, temp: 0 },
+          stamp: "Deep",
+          score: 8.7
+        },
+        {
+          name: "Brazil",
+          meta: "Cerrado · Natural",
+          stub: "CERRADO",
+          notes: [
+            "Nutty comfort, milk chocolate, low acid.",
+            "Peanut butter cookie, sweet and round.",
+            "Hazelnut, molasses, cozy cup."
+          ],
+          defaults: { method: 3, grind: 3, ratio: 3, temp: 0 },
+          stamp: "Cozy",
+          score: 8.1
+        },
+        {
+          name: "Panama",
+          meta: "Boquete · Geisha",
+          stub: "GEISHA",
+          notes: [
+            "Tropical perfume, jasmine tea, champagne acidity.",
+            "Mango & bergamot, ethereal and long.",
+            "Orchid, lychee, translucent body."
+          ],
+          defaults: { method: 0, grind: 1, ratio: 1, temp: 2 },
+          stamp: "Rare",
+          score: 9.8
+        }
+      ];
+
+      const PARAMS = {
+        method: ["Hario V60", "Kalita Wave", "AeroPress", "French Press", "Chemex"],
+        grind: ["Fine", "Medium-Fine", "Medium", "Medium-Coarse", "Coarse"],
+        ratio: ["1:14 (21g/300ml)", "1:15 (20g/300ml)", "1:16 (18g/300ml)", "1:17 (18g/310ml)"],
+        temp: ["90°C / 194°F", "92°C / 198°F", "93°C / 199°F", "94°C / 201°F", "96°C / 205°F"]
+      };
+
+      const SCORE_CAPTIONS = [
+        { min: 9.5, text: "LEGENDARY CUP" },
+        { min: 9.0, text: "GOOD FOR ONE CUP" },
+        { min: 8.0, text: "WORTH A SECOND POUR" },
+        { min: 7.0, text: "DECENT MORNING FUEL" },
+        { min: 0, text: "NEEDS ANOTHER TRY" }
+      ];
+
+      const STAMP_WORDS = ["Good!", "Nice!", "Wow!", "Solid", "Aroma!", "Sip!", "Yes!"];
+
+      const el = {
+        brewTicket: document.getElementById("brewTicket"),
+        stub: document.getElementById("stub"),
+        stubNo: document.getElementById("stubNo"),
+        stubName: document.getElementById("stubName"),
+        originName: document.getElementById("originName"),
+        originMeta: document.getElementById("originMeta"),
+        originDots: document.getElementById("originDots"),
+        valMethod: document.getElementById("valMethod"),
+        valGrind: document.getElementById("valGrind"),
+        valRatio: document.getElementById("valRatio"),
+        valTemp: document.getElementById("valTemp"),
+        flavorText: document.getElementById("flavorText"),
+        flavorNotes: document.getElementById("flavorNotes"),
+        flavorCursor: document.getElementById("flavorCursor"),
+        ticketStamp: document.getElementById("ticketStamp"),
+        stampSmear: document.getElementById("stampSmear"),
+        scoreTicket: document.getElementById("scoreTicket"),
+        scoreBig: document.getElementById("scoreBig"),
+        scoreCaption: document.getElementById("scoreCaption"),
+        scoreFill: document.getElementById("scoreFill"),
+        stampTool: document.getElementById("stampTool"),
+        toast: document.getElementById("toast"),
+        hint: document.getElementById("hint"),
+        steam: document.getElementById("steam"),
+        burst: document.getElementById("burst"),
+        ticketNo: document.getElementById("ticketNo"),
+        prevOrigin: document.getElementById("prevOrigin"),
+        nextOrigin: document.getElementById("nextOrigin"),
+        btnShuffle: document.getElementById("btnShuffle"),
+        btnSteam: document.getElementById("btnSteam"),
+        btnReprint: document.getElementById("btnReprint")
+      };
+
+      const state = {
+        coffeeIndex: 0,
+        noteIndex: 0,
+        params: { method: 0, grind: 1, ratio: 1, temp: 2 },
+        score: 9.0,
+        stamped: false,
+        torn: false,
+        steamOn: false,
+        typeTimer: null
+      };
+
+      function todayNo() {
+        const d = new Date();
+        const y = d.getFullYear();
+        const m = String(d.getMonth() + 1).padStart(2, "0");
+        const day = String(d.getDate()).padStart(2, "0");
+        return `${y}${m}${day}`;
+      }
+
+      function showToast(msg) {
+        el.toast.textContent = msg;
+        el.toast.classList.add("is-show");
+        clearTimeout(showToast._t);
+        showToast._t = setTimeout(() => el.toast.classList.remove("is-show"), 1600);
+      }
+
+      function setHint(text) {
+        el.hint.style.opacity = "0";
+        setTimeout(() => {
+          el.hint.textContent = text;
+          el.hint.style.opacity = "1";
+        }, 160);
+      }
+
+      function scoreCaption(score) {
+        return SCORE_CAPTIONS.find((c) => score >= c.min).text;
+      }
+
+      function renderDots() {
+        el.originDots.innerHTML = "";
+        COFFEES.forEach((_, i) => {
+          const b = document.createElement("button");
+          b.type = "button";
+          b.setAttribute("aria-label", COFFEES[i].name);
+          if (i === state.coffeeIndex) b.classList.add("is-on");
+          b.addEventListener("click", () => setCoffee(i));
+          el.originDots.appendChild(b);
+        });
+      }
+
+      function typeFlavor(text) {
+        clearInterval(state.typeTimer);
+        el.flavorCursor.hidden = false;
+        el.flavorText.textContent = "";
+        let i = 0;
+        state.typeTimer = setInterval(() => {
+          i += 1;
+          el.flavorText.textContent = text.slice(0, i);
+          if (i >= text.length) {
+            clearInterval(state.typeTimer);
+            el.flavorCursor.hidden = true;
+          }
+        }, 14);
+      }
+
+      function renderParams() {
+        el.valMethod.textContent = PARAMS.method[state.params.method];
+        el.valGrind.textContent = PARAMS.grind[state.params.grind];
+        el.valRatio.textContent = PARAMS.ratio[state.params.ratio];
+        el.valTemp.textContent = PARAMS.temp[state.params.temp];
+      }
+
+      function renderScore(animate) {
+        const s = Math.round(state.score * 10) / 10;
+        el.scoreBig.textContent = s.toFixed(1);
+        el.scoreCaption.textContent = scoreCaption(s);
+        el.scoreFill.style.width = ((s - 6) / 4) * 100 + "%";
+        if (animate) {
+          el.scoreBig.classList.remove("is-tick");
+          void el.scoreBig.offsetWidth;
+          el.scoreBig.classList.add("is-tick");
+        }
+      }
+
+      function clearStamp() {
+        state.stamped = false;
+        el.ticketStamp.classList.remove("is-stamped");
+        el.ticketStamp.style.opacity = "0";
+      }
+
+      function placeStamp(xPct, yPct, word) {
+        const coffee = COFFEES[state.coffeeIndex];
+        el.ticketStamp.textContent = word || coffee.stamp || STAMP_WORDS[Math.floor(Math.random() * STAMP_WORDS.length)];
+        el.ticketStamp.style.left = xPct + "%";
+        el.ticketStamp.style.top = yPct + "%";
+        el.ticketStamp.classList.remove("is-stamped");
+        void el.ticketStamp.offsetWidth;
+        el.ticketStamp.classList.add("is-stamped");
+        state.stamped = true;
+
+        el.stampSmear.style.left = `calc(${xPct}% - 9px)`;
+        el.stampSmear.style.top = `calc(${yPct}% - 9px)`;
+        el.stampSmear.classList.remove("is-show");
+        void el.stampSmear.offsetWidth;
+        el.stampSmear.classList.add("is-show");
+
+        el.brewTicket.animate(
+          [
+            { transform: "translateY(0) rotate(0)" },
+            { transform: "translateY(3px) rotate(-0.6deg)" },
+            { transform: "translateY(0) rotate(0)" }
+          ],
+          { duration: 280, easing: "cubic-bezier(0.34, 1.56, 0.64, 1)" }
+        );
+
+        if (state.score >= 9) celebrate();
+        showToast("盖章完成 · STAMPED");
+        setHint("印章已盖上 — 左右拖动橙色票调分");
+      }
+
+      function celebrate() {
+        el.scoreTicket.classList.remove("is-celebrate");
+        void el.scoreTicket.offsetWidth;
+        el.scoreTicket.classList.add("is-celebrate");
+
+        const colors = ["#c94e50", "#e09873", "#bfe3eb", "#2c2c2c", "#f3ecdf"];
+        const rect = el.scoreTicket.getBoundingClientRect();
+        const cx = rect.left + rect.width / 2;
+        const cy = rect.top + rect.height / 2;
+        el.burst.innerHTML = "";
+        for (let i = 0; i < 18; i++) {
+          const bit = document.createElement("i");
+          const angle = (Math.PI * 2 * i) / 18;
+          const dist = 60 + Math.random() * 80;
+          bit.style.left = cx + "px";
+          bit.style.top = cy + "px";
+          bit.style.background = colors[i % colors.length];
+          bit.style.setProperty("--dx", Math.cos(angle) * dist + "px");
+          bit.style.setProperty("--dy", Math.sin(angle) * dist + "px");
+          bit.style.setProperty("--rot", (Math.random() * 240 - 120) + "deg");
+          el.burst.appendChild(bit);
+        }
+        setTimeout(() => { el.burst.innerHTML = ""; }, 1000);
+      }
+
+      function setCoffee(index, opts) {
+        const soft = opts && opts.soft;
+        state.coffeeIndex = (index + COFFEES.length) % COFFEES.length;
+        const coffee = COFFEES[state.coffeeIndex];
+        state.noteIndex = 0;
+        state.params = { ...coffee.defaults };
+        state.score = coffee.score;
+        state.torn = false;
+        el.brewTicket.classList.remove("is-torn");
+        clearStamp();
+
+        el.originName.classList.remove("is-swap");
+        void el.originName.offsetWidth;
+        el.originName.classList.add("is-swap");
+        el.originName.textContent = coffee.name;
+        el.originMeta.textContent = coffee.meta;
+        el.stubName.textContent = coffee.stub;
+        renderDots();
+        renderParams();
+        renderScore(!soft);
+        typeFlavor(coffee.notes[0]);
+
+        if (!soft) {
+          showToast(coffee.name.toUpperCase());
+          setHint("点参数格子切换 · 拖印章盖章");
+        }
+      }
+
+      function cycleParam(key) {
+        const list = PARAMS[key];
+        state.params[key] = (state.params[key] + 1) % list.length;
+        renderParams();
+        const item = document.querySelector(`[data-param="${key}"]`);
+        if (item) {
+          item.classList.remove("is-pulse");
+          void item.offsetWidth;
+          item.classList.add("is-pulse");
+        }
+        // Tiny score drift for fun
+        const drift = (Math.random() - 0.45) * 0.3;
+        state.score = Math.min(10, Math.max(6.5, state.score + drift));
+        renderScore(true);
+        setHint(`${key.toUpperCase()} → ${list[state.params[key]]}`);
+      }
+
+      function nextNote() {
+        const coffee = COFFEES[state.coffeeIndex];
+        state.noteIndex = (state.noteIndex + 1) % coffee.notes.length;
+        typeFlavor(coffee.notes[state.noteIndex]);
+        el.flavorNotes.animate(
+          [{ transform: "scale(1)" }, { transform: "scale(1.02)" }, { transform: "scale(1)" }],
+          { duration: 220, easing: "cubic-bezier(0.34, 1.56, 0.64, 1)" }
+        );
+      }
+
+      function reprint() {
+        const no = todayNo();
+        el.ticketNo.textContent = no;
+        el.stubNo.textContent = "NO. " + no;
+        el.brewTicket.classList.add("is-printing");
+        setTimeout(() => {
+          el.brewTicket.classList.remove("is-printing");
+          state.torn = false;
+          el.brewTicket.classList.remove("is-torn");
+          clearStamp();
+          el.brewTicket.style.animation = "none";
+          void el.brewTicket.offsetWidth;
+          el.brewTicket.style.animation = "";
+          setCoffee(state.coffeeIndex, { soft: true });
+          showToast("重新出票 · REPRINTED");
+          setHint("新票已出 — 撕存根、盖章、打分");
+        }, 520);
+      }
+
+      /* —— Parameter taps —— */
+      document.querySelectorAll(".detail-item").forEach((node) => {
+        const go = () => cycleParam(node.dataset.param);
+        node.addEventListener("click", go);
+        node.addEventListener("keydown", (e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            go();
+          }
+        });
+      });
+
+      el.flavorNotes.addEventListener("click", nextNote);
+      el.flavorNotes.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          nextNote();
+        }
+      });
+
+      el.prevOrigin.addEventListener("click", () => setCoffee(state.coffeeIndex - 1));
+      el.nextOrigin.addEventListener("click", () => setCoffee(state.coffeeIndex + 1));
+      el.btnShuffle.addEventListener("click", () => {
+        let next = Math.floor(Math.random() * COFFEES.length);
+        if (next === state.coffeeIndex) next = (next + 1) % COFFEES.length;
+        setCoffee(next);
+      });
+      el.btnSteam.addEventListener("click", () => {
+        state.steamOn = !state.steamOn;
+        el.steam.classList.toggle("is-on", state.steamOn);
+        showToast(state.steamOn ? "热气升起" : "热气消散");
+      });
+      el.btnReprint.addEventListener("click", reprint);
+
+      /* —— Ticket tilt on drag —— */
+      (function tiltTicket() {
+        let dragging = false;
+        let startX = 0;
+        let startY = 0;
+
+        const onDown = (e) => {
+          if (e.target.closest(".ticket-stub, .nav-btn, .detail-item, .flavor-notes, .dots")) return;
+          dragging = true;
+          el.brewTicket.classList.add("is-tilting");
+          const pt = e.touches ? e.touches[0] : e;
+          startX = pt.clientX;
+          startY = pt.clientY;
+        };
+        const onMove = (e) => {
+          if (!dragging) return;
+          const pt = e.touches ? e.touches[0] : e;
+          const dx = (pt.clientX - startX) / 18;
+          const dy = (pt.clientY - startY) / 28;
+          el.brewTicket.style.transform = `rotateY(${Math.max(-8, Math.min(8, dx))}deg) rotateX(${Math.max(-5, Math.min(5, -dy))}deg)`;
+        };
+        const onUp = () => {
+          if (!dragging) return;
+          dragging = false;
+          el.brewTicket.classList.remove("is-tilting");
+          el.brewTicket.style.transform = "";
+        };
+
+        el.brewTicket.addEventListener("pointerdown", onDown);
+        window.addEventListener("pointermove", onMove);
+        window.addEventListener("pointerup", onUp);
+      })();
+
+      /* —— Tear stub —— */
+      (function tearStub() {
+        let active = false;
+        let startX = 0;
+
+        el.stub.addEventListener("pointerdown", (e) => {
+          if (state.torn) return;
+          active = true;
+          el.stub.setPointerCapture(e.pointerId);
+          startX = e.clientX;
+          setHint("继续向左拖…撕开存根");
+        });
+        el.stub.addEventListener("pointermove", (e) => {
+          if (!active || state.torn) return;
+          const dx = e.clientX - startX;
+          if (dx < 0) {
+            el.stub.style.transform = `translateX(${dx}px) rotate(${dx / 20}deg)`;
+          }
+        });
+        el.stub.addEventListener("pointerup", (e) => {
+          if (!active) return;
+          active = false;
+          const dx = e.clientX - startX;
+          if (dx < -70) {
+            state.torn = true;
+            el.stub.style.transform = "";
+            el.brewTicket.classList.add("is-torn");
+            showToast("存根已撕下");
+            setHint("存根撕下了 — 票面还在");
+          } else {
+            el.stub.style.transition = "transform 0.35s cubic-bezier(0.34,1.56,0.64,1)";
+            el.stub.style.transform = "";
+            setTimeout(() => { el.stub.style.transition = ""; }, 400);
+            setHint("再拖远一点才能撕开");
+          }
+        });
+      })();
+
+      /* —— Score scrub —— */
+      (function scoreScrub() {
+        let active = false;
+        let lastX = 0;
+
+        const scrub = (clientX) => {
+          const dx = clientX - lastX;
+          lastX = clientX;
+          state.score = Math.min(10, Math.max(6.5, state.score + dx * 0.02));
+          renderScore(true);
+          if (state.score >= 9.5) {
+            el.scoreTicket.classList.add("is-celebrate");
+          }
+        };
+
+        el.scoreTicket.addEventListener("pointerdown", (e) => {
+          active = true;
+          lastX = e.clientX;
+          el.scoreTicket.classList.add("is-dragging");
+          el.scoreTicket.setPointerCapture(e.pointerId);
+          setHint("左右拖动调分 · 9.5+ 会庆祝");
+        });
+        el.scoreTicket.addEventListener("pointermove", (e) => {
+          if (!active) return;
+          scrub(e.clientX);
+        });
+        el.scoreTicket.addEventListener("pointerup", () => {
+          if (!active) return;
+          active = false;
+          el.scoreTicket.classList.remove("is-dragging");
+          if (state.score >= 9.5) celebrate();
+          showToast("评分 " + state.score.toFixed(1));
+        });
+
+        // Wheel support for desktop
+        el.scoreTicket.addEventListener("wheel", (e) => {
+          e.preventDefault();
+          state.score = Math.min(10, Math.max(6.5, state.score + (e.deltaY > 0 ? -0.1 : 0.1)));
+          renderScore(true);
+        }, { passive: false });
+      })();
+
+      /* —— Draggable stamp tool —— */
+      (function stampDrag() {
+        const tool = el.stampTool;
+        let active = false;
+        let ox = 0;
+        let oy = 0;
+        let startLeft = 0;
+        let startTop = 0;
+        let placed = false;
+
+        const resetTool = () => {
+          tool.style.left = "";
+          tool.style.top = "";
+          tool.style.right = "20px";
+          tool.style.bottom = "28px";
+          tool.style.position = "fixed";
+          tool.classList.remove("is-dragging");
+          tool.classList.add("is-armed");
+        };
+
+        tool.addEventListener("pointerdown", (e) => {
+          active = true;
+          placed = false;
+          tool.classList.add("is-dragging");
+          tool.classList.remove("is-armed");
+          tool.setPointerCapture(e.pointerId);
+          const rect = tool.getBoundingClientRect();
+          ox = e.clientX - rect.left;
+          oy = e.clientY - rect.top;
+          startLeft = rect.left;
+          startTop = rect.top;
+          tool.style.right = "auto";
+          tool.style.bottom = "auto";
+          tool.style.left = startLeft + "px";
+          tool.style.top = startTop + "px";
+          setHint("拖到蓝色票面上松开即可盖章");
+        });
+
+        tool.addEventListener("pointermove", (e) => {
+          if (!active) return;
+          const x = e.clientX - ox;
+          const y = e.clientY - oy;
+          tool.style.left = x + "px";
+          tool.style.top = y + "px";
+
+          const ticketRect = el.brewTicket.getBoundingClientRect();
+          const cx = e.clientX;
+          const cy = e.clientY;
+          const over =
+            cx > ticketRect.left + 20 &&
+            cx < ticketRect.right - 20 &&
+            cy > ticketRect.top + 20 &&
+            cy < ticketRect.bottom - 20;
+          tool.style.borderColor = over ? "#8b2e30" : "var(--ticket-red)";
+          tool.style.transform = over ? "scale(1.12) rotate(-12deg)" : "";
+        });
+
+        tool.addEventListener("pointerup", (e) => {
+          if (!active) return;
+          active = false;
+          tool.style.transform = "";
+          tool.style.borderColor = "";
+
+          const ticketRect = el.brewTicket.getBoundingClientRect();
+          const cx = e.clientX;
+          const cy = e.clientY;
+          const over =
+            cx > ticketRect.left + 16 &&
+            cx < ticketRect.right - 16 &&
+            cy > ticketRect.top + 16 &&
+            cy < ticketRect.bottom - 16;
+
+          if (over) {
+            const xPct = ((cx - ticketRect.left) / ticketRect.width) * 100;
+            const yPct = ((cy - ticketRect.top) / ticketRect.height) * 100;
+            placeStamp(xPct, yPct);
+            placed = true;
+          } else {
+            showToast("盖到票面上才算数");
+          }
+          resetTool();
+        });
+
+        tool.addEventListener("click", (e) => {
+          // quick-stamp center-ish if not dragged far
+          if (placed) return;
+        });
+      })();
+
+      /* —— Keyboard —— */
+      window.addEventListener("keydown", (e) => {
+        if (e.target.matches("input, textarea")) return;
+        if (e.key === "ArrowLeft") setCoffee(state.coffeeIndex - 1);
+        if (e.key === "ArrowRight") setCoffee(state.coffeeIndex + 1);
+        if (e.key === "s" || e.key === "S") {
+          placeStamp(70 + Math.random() * 15, 70 + Math.random() * 15);
+        }
+        if (e.key === "r" || e.key === "R") reprint();
+      });
+
+      /* —— Init —— */
+      const no = todayNo();
+      el.ticketNo.textContent = no;
+      el.stubNo.textContent = "NO. " + no;
+      setCoffee(0, { soft: true });
+      renderScore(false);
+      setTimeout(() => setHint("点参数切换 · 拖动评分 · 把印章盖到票上"), 100);
+    })();
+  </script>
+</body>
+</html>

@@ -21,7 +21,8 @@
               "components/forms/**",
               "components/surfaces/**",
               "ui_kits/console/**",
-              "ui_kits/marketing/**"
+              "ui_kits/marketing/**",
+              "ui_kits/coffee-ticket/**"
             ],
             "message": "Import design-system components from 'index.js', not component internals."
           }
